@@ -5,36 +5,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>住宅広告 プロンプトウィザード</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style>
   :root {
-    --navy: #1C2B4A;
-    --navy-light: #2D4070;
-    --navy-muted: #4A6098;
-    --accent: #C97D4E;
-    --accent-light: #E8A87C;
-    --accent-bg: #FFF4EC;
-    --white: #FFFFFF;
-    --gray-50: #F8F9FB;
-    --gray-100: #EEF1F6;
-    --gray-200: #DDE2EC;
-    --gray-400: #9BA5BF;
-    --gray-600: #5C6880;
-    --gray-800: #2E3A52;
-    --success: #4A8C6F;
-    --shadow-sm: 0 1px 4px rgba(28,43,74,0.08);
-    --shadow-md: 0 4px 16px rgba(28,43,74,0.12);
-    --shadow-lg: 0 8px 32px rgba(28,43,74,0.16);
-    --radius: 12px;
-    --radius-sm: 8px;
-    --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    --navy:        #1A2844;
+    --navy-light:  #243558;
+    --navy-muted:  #4A6098;
+    --blue:        #3B6EBF;
+    --blue-light:  #EBF0FA;
+    --white:       #FFFFFF;
+    --bg:          #F0F3FA;
+    --gray-100:    #EEF1F8;
+    --gray-200:    #DDE2EE;
+    --gray-400:    #9BA5C2;
+    --gray-600:    #5C6880;
+    --gray-800:    #2E3A52;
+    --success:     #2D7D5F;
+    --shadow-sm:   0 1px 4px rgba(26,40,68,0.08);
+    --shadow-md:   0 4px 16px rgba(26,40,68,0.12);
+    --shadow-lg:   0 8px 32px rgba(26,40,68,0.16);
+    --radius:      12px;
+    --radius-sm:   8px;
+    --transition:  0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
     font-family: 'Noto Sans JP', sans-serif;
-    background: var(--gray-50);
+    background: var(--bg);
     color: var(--gray-800);
     min-height: 100vh;
     line-height: 1.6;
@@ -43,392 +43,237 @@
   /* ── Header ── */
   .app-header {
     background: var(--navy);
-    padding: 18px 24px;
+    padding: 12px 22px;
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 12px;
     position: sticky;
     top: 0;
     z-index: 100;
-    box-shadow: 0 2px 12px rgba(28,43,74,0.3);
+    box-shadow: 0 2px 12px rgba(26,40,68,0.3);
   }
-  .header-logo {
-    width: 36px; height: 36px;
-    background: var(--accent);
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
+  .header-icon { color: #7BAFD4; font-size: 22px; flex-shrink: 0; }
+  .header-text { flex: 1; min-width: 0; }
+  .header-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
   }
   .header-title {
-    font-family: 'Noto Serif JP', serif;
     color: var(--white);
-    font-size: 16px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+  }
+  .header-client {
+    background: rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.9);
+    font-size: 11px;
     font-weight: 600;
+    padding: 2px 9px;
+    border-radius: 10px;
     letter-spacing: 0.02em;
+    white-space: nowrap;
+    display: none;
   }
   .header-sub {
-    color: var(--navy-muted);
+    color: rgba(255,255,255,0.4);
     font-size: 11px;
     margin-top: 1px;
   }
 
   /* ── Layout ── */
   .app-container {
-    max-width: 680px;
+    max-width: 640px;
     margin: 0 auto;
-    padding: 28px 16px 80px;
+    padding: 22px 16px 80px;
   }
 
   /* ── Progress ── */
   .progress-wrap {
     background: var(--white);
     border-radius: var(--radius);
-    padding: 20px 24px;
-    margin-bottom: 20px;
+    padding: 16px 20px;
+    margin-bottom: 14px;
     box-shadow: var(--shadow-sm);
     border: 1px solid var(--gray-200);
   }
-  .progress-meta {
+  .progress-top {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
+    align-items: baseline;
+    margin-bottom: 10px;
   }
-  .progress-label {
-    font-size: 12px;
-    color: var(--gray-600);
-    font-weight: 500;
-    letter-spacing: 0.05em;
+  .progress-step-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--gray-400);
+    letter-spacing: 0.12em;
     text-transform: uppercase;
   }
   .progress-fraction {
-    font-family: 'Noto Serif JP', serif;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 700;
     color: var(--navy);
+    line-height: 1;
   }
-  .progress-fraction span { font-size: 14px; color: var(--gray-400); font-weight: 400; }
+  .progress-fraction span { font-size: 13px; color: var(--gray-400); font-weight: 400; }
   .progress-bar {
-    height: 4px;
+    height: 3px;
     background: var(--gray-100);
     border-radius: 2px;
     overflow: hidden;
+    margin-bottom: 10px;
   }
   .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--navy), var(--accent));
+    background: linear-gradient(90deg, var(--navy), var(--blue));
     border-radius: 2px;
-    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  .step-dots {
-    display: flex;
-    gap: 6px;
-    margin-top: 12px;
-    flex-wrap: wrap;
-  }
+  .step-dots { display: flex; gap: 5px; }
   .step-dot {
-    width: 28px; height: 4px;
+    height: 3px;
+    flex: 1;
     border-radius: 2px;
     background: var(--gray-200);
     transition: background var(--transition);
   }
-  .step-dot.done { background: var(--navy); }
-  .step-dot.current { background: var(--accent); }
+  .step-dot.done    { background: var(--navy); }
+  .step-dot.current { background: var(--blue); }
 
-  /* ── Card ── */
+  /* ── Wizard Card ── */
   .wizard-card {
     background: var(--white);
     border-radius: var(--radius);
     border: 1px solid var(--gray-200);
     box-shadow: var(--shadow-md);
     overflow: hidden;
-    animation: slideIn 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: slideIn 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
   @keyframes slideIn {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 
-  .card-header {
-    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
-    padding: 24px 28px 20px;
-    position: relative;
-    overflow: hidden;
-  }
-  .card-header::after {
-    content: '';
-    position: absolute;
-    right: -20px; top: -20px;
-    width: 120px; height: 120px;
-    border: 2px solid rgba(255,255,255,0.06);
-    border-radius: 50%;
-  }
-  .card-header::before {
-    content: '';
-    position: absolute;
-    right: 20px; top: 20px;
-    width: 60px; height: 60px;
-    border: 2px solid rgba(255,255,255,0.04);
-    border-radius: 50%;
-  }
+  .card-header { background: var(--navy); padding: 20px 24px 16px; }
   .step-badge {
     display: inline-block;
-    background: rgba(201,125,78,0.25);
-    color: var(--accent-light);
-    font-size: 11px;
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.65);
+    font-size: 10px;
     font-weight: 700;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
     padding: 3px 10px;
     border-radius: 20px;
-    border: 1px solid rgba(201,125,78,0.3);
     margin-bottom: 8px;
+    text-transform: uppercase;
   }
-  .card-title {
-    font-family: 'Noto Serif JP', serif;
-    color: var(--white);
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 1.3;
-  }
-  .card-subtitle {
-    color: rgba(255,255,255,0.55);
-    font-size: 13px;
-    margin-top: 6px;
-  }
+  .card-title { color: var(--white); font-size: 17px; font-weight: 700; line-height: 1.3; }
+  .card-subtitle { color: rgba(255,255,255,0.45); font-size: 12px; margin-top: 5px; }
+  .card-body { padding: 20px 22px; }
 
-  .card-body { padding: 24px 28px; }
-
-  /* ── Options ── */
-  .options-grid {
+  /* ── Client Selection ── */
+  .client-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
+    margin-bottom: 10px;
   }
-  .options-grid.single-col { grid-template-columns: 1fr; }
+  .client-btn {
+    border: 1.5px solid var(--gray-200);
+    background: var(--white);
+    border-radius: var(--radius-sm);
+    padding: 16px 14px;
+    cursor: pointer;
+    text-align: left;
+    transition: all var(--transition);
+    font-family: 'Noto Sans JP', sans-serif;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .client-btn:hover { border-color: var(--navy-muted); background: var(--blue-light); }
+  .client-btn.selected {
+    border-color: var(--navy);
+    background: var(--navy);
+    color: var(--white);
+    box-shadow: 0 2px 10px rgba(26,40,68,0.2);
+  }
+  .client-btn .material-icons {
+    font-size: 20px;
+    color: var(--gray-400);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .client-btn.selected .material-icons { color: rgba(255,255,255,0.65); }
+  .client-btn-text { flex: 1; }
+  .client-btn-name { font-weight: 700; font-size: 14px; display: block; color: var(--gray-800); }
+  .client-btn.selected .client-btn-name { color: var(--white); }
+  .client-btn-sub { font-size: 11px; color: var(--gray-400); display: block; margin-top: 2px; }
+  .client-btn.selected .client-btn-sub { color: rgba(255,255,255,0.5); }
+
+  .client-generic-btn {
+    width: 100%;
+    border: 1.5px dashed var(--gray-200);
+    background: var(--white);
+    border-radius: var(--radius-sm);
+    padding: 13px 16px;
+    cursor: pointer;
+    text-align: left;
+    transition: all var(--transition);
+    font-family: 'Noto Sans JP', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--gray-600);
+  }
+  .client-generic-btn:hover { border-color: var(--gray-400); background: var(--gray-100); }
+  .client-generic-btn.selected {
+    border-style: solid;
+    border-color: var(--navy);
+    background: var(--navy);
+    color: var(--white);
+  }
+  .client-generic-btn .material-icons { font-size: 18px; color: var(--gray-400); }
+  .client-generic-btn.selected .material-icons { color: rgba(255,255,255,0.65); }
+  .client-generic-label { font-weight: 600; font-size: 14px; }
+
+  /* ── Option Buttons ── */
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .options-grid.odd-last > .option-btn:last-child:nth-child(odd) { grid-column: 1 / -1; }
 
   .option-btn {
     border: 1.5px solid var(--gray-200);
     background: var(--white);
     border-radius: var(--radius-sm);
-    padding: 14px 16px;
+    padding: 13px 15px;
     cursor: pointer;
     text-align: left;
     transition: all var(--transition);
-    display: flex;
-    align-items: center;
-    gap: 10px;
     font-family: 'Noto Sans JP', sans-serif;
     font-size: 14px;
     color: var(--gray-800);
-    position: relative;
-    overflow: hidden;
   }
-  .option-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, var(--navy), var(--navy-light));
-    opacity: 0;
-    transition: opacity var(--transition);
-  }
-  .option-btn:hover {
-    border-color: var(--navy-muted);
-    box-shadow: var(--shadow-sm);
-    transform: translateY(-1px);
-  }
+  .option-btn:hover { border-color: var(--navy-muted); background: var(--blue-light); }
   .option-btn.selected {
     border-color: var(--navy);
     background: var(--navy);
     color: var(--white);
-    box-shadow: 0 4px 14px rgba(28,43,74,0.25);
-    transform: translateY(-1px);
+    box-shadow: 0 2px 10px rgba(26,40,68,0.2);
   }
-  .option-btn.selected .opt-icon { color: var(--accent-light); }
-  .opt-icon {
-    font-size: 18px;
-    flex-shrink: 0;
-    position: relative;
-    z-index: 1;
-  }
-  .opt-text { position: relative; z-index: 1; font-weight: 500; line-height: 1.3; }
-  .opt-badge {
-    margin-left: auto;
-    font-size: 10px;
-    background: var(--accent-bg);
-    color: var(--accent);
-    border: 1px solid rgba(201,125,78,0.3);
-    padding: 2px 7px;
-    border-radius: 10px;
-    font-weight: 600;
-    white-space: nowrap;
-    position: relative;
-    z-index: 1;
-  }
-  .option-btn.selected .opt-badge {
-    background: rgba(201,125,78,0.2);
-    color: var(--accent-light);
-    border-color: rgba(232,168,124,0.3);
-  }
+  .opt-main { font-weight: 700; font-size: 15px; display: block; margin-bottom: 2px; }
+  .opt-sub { font-size: 11px; color: var(--gray-600); font-weight: 400; display: block; }
+  .option-btn.selected .opt-sub { color: rgba(255,255,255,0.55); }
 
-  /* ── Checkbox style for multi ── */
-  .option-btn.multi .check-circle {
-    width: 18px; height: 18px;
-    border-radius: 4px;
-    border: 1.5px solid var(--gray-300, #ccc);
-    flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    transition: all var(--transition);
-    margin-left: auto;
-    position: relative;
-    z-index: 1;
-  }
-  .option-btn.multi.selected .check-circle {
-    background: var(--accent);
-    border-color: var(--accent);
-  }
-  .check-circle::after {
-    content: '✓';
-    color: white;
-    font-size: 11px;
-    font-weight: 700;
-    opacity: 0;
-    transition: opacity var(--transition);
-  }
-  .option-btn.multi.selected .check-circle::after { opacity: 1; }
-
-  /* ── Text inputs ── */
-  .input-group { margin-bottom: 0; }
-  .input-label {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--gray-600);
-    margin-bottom: 8px;
-    display: block;
-  }
-  .text-input, .textarea-input {
-    width: 100%;
-    border: 1.5px solid var(--gray-200);
-    border-radius: var(--radius-sm);
-    padding: 12px 16px;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 14px;
-    color: var(--gray-800);
-    background: var(--white);
-    transition: border-color var(--transition), box-shadow var(--transition);
-    outline: none;
-  }
-  .text-input:focus, .textarea-input:focus {
-    border-color: var(--navy);
-    box-shadow: 0 0 0 3px rgba(28,43,74,0.08);
-  }
-  .text-input::placeholder, .textarea-input::placeholder {
-    color: var(--gray-400);
-    font-weight: 300;
-  }
-  .textarea-input {
-    min-height: 120px;
-    resize: vertical;
-    line-height: 1.7;
-  }
-  .input-hint {
-    font-size: 12px;
-    color: var(--gray-400);
-    margin-top: 6px;
-  }
-  .input-hint em { color: var(--accent); font-style: normal; font-weight: 500; }
-
-  /* ── Date picker ── */
-  .date-mode-toggle {
-    display: flex;
-    background: var(--gray-100);
-    border-radius: var(--radius-sm);
-    padding: 3px;
-    margin-bottom: 16px;
-    gap: 2px;
-  }
-  .date-mode-btn {
-    flex: 1;
-    border: none;
-    background: transparent;
-    border-radius: 6px;
-    padding: 8px;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--gray-600);
-    cursor: pointer;
-    transition: all var(--transition);
-  }
-  .date-mode-btn.active {
-    background: var(--white);
-    color: var(--navy);
-    box-shadow: var(--shadow-sm);
-  }
-  .date-row {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-  }
-  .date-sep {
-    color: var(--gray-400);
-    font-size: 13px;
-    white-space: nowrap;
-  }
-  input[type="date"] {
-    flex: 1;
-    border: 1.5px solid var(--gray-200);
-    border-radius: var(--radius-sm);
-    padding: 11px 12px;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 14px;
-    color: var(--gray-800);
-    background: var(--white);
-    outline: none;
-    cursor: pointer;
-    transition: border-color var(--transition);
-  }
-  input[type="date"]:focus { border-color: var(--navy); }
-
-  input[type="time"] {
-    border: 1.5px solid var(--gray-200);
-    border-radius: var(--radius-sm);
-    padding: 11px 12px;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 14px;
-    color: var(--gray-800);
-    background: var(--white);
-    outline: none;
-    cursor: pointer;
-    transition: border-color var(--transition);
-    width: 140px;
-    flex-shrink: 0;
-  }
-  input[type="time"]:focus { border-color: var(--navy); }
-
-  .datetime-row {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .datetime-time-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .datetime-label {
-    font-size: 12px;
-    color: var(--gray-600);
-    font-weight: 500;
-    white-space: nowrap;
-    min-width: 56px;
-  }
-
-  /* Yes/No toggle */
-  .yesno-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
+  /* ── Yes/No ── */
+  .yesno-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .yesno-btn {
     border: 2px solid var(--gray-200);
     background: var(--white);
@@ -438,40 +283,47 @@
     text-align: center;
     transition: all var(--transition);
     font-family: 'Noto Sans JP', sans-serif;
-    color: var(--gray-600);
   }
-  .yesno-btn:hover {
-    border-color: var(--navy-muted);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-sm);
-  }
+  .yesno-btn:hover { border-color: var(--navy-muted); background: var(--blue-light); }
   .yesno-btn.selected {
     border-color: var(--navy);
     background: var(--navy);
-    color: var(--white);
-    box-shadow: 0 4px 14px rgba(28,43,74,0.25);
-    transform: translateY(-2px);
+    box-shadow: 0 3px 12px rgba(26,40,68,0.22);
   }
-  .yesno-icon { font-size: 28px; margin-bottom: 8px; display: block; }
-  .yesno-label { font-size: 15px; font-weight: 700; display: block; }
-  .yesno-sub { font-size: 11px; opacity: 0.65; margin-top: 3px; display: block; }
+  .yesno-icon { display: block; font-size: 26px; color: var(--gray-400); margin-bottom: 8px; }
+  .yesno-btn.selected .yesno-icon { color: rgba(255,255,255,0.65); }
+  .yesno-label { font-size: 16px; font-weight: 700; display: block; color: var(--gray-800); }
+  .yesno-btn.selected .yesno-label { color: var(--white); }
+  .yesno-sub { font-size: 11px; color: var(--gray-400); margin-top: 3px; display: block; }
+  .yesno-btn.selected .yesno-sub { color: rgba(255,255,255,0.5); }
 
-  /* Custom input for "other" */
-  .other-input-wrap {
-    margin-top: 10px;
+  /* ── Text / Date Input ── */
+  .input-group { margin-bottom: 0; }
+  .text-input, .date-input {
+    width: 100%;
+    border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 14px;
+    color: var(--gray-800);
+    background: var(--white);
+    outline: none;
+    transition: border-color var(--transition), box-shadow var(--transition);
   }
+  .text-input:focus, .date-input:focus {
+    border-color: var(--navy);
+    box-shadow: 0 0 0 3px rgba(26,40,68,0.07);
+  }
+  .text-input::placeholder { color: var(--gray-400); font-weight: 300; }
+  .input-hint { font-size: 12px; color: var(--gray-400); margin-top: 7px; line-height: 1.5; }
 
-  /* ── Navigation buttons ── */
-  .card-footer {
-    padding: 0 28px 28px;
-    display: flex;
-    gap: 10px;
-    align-items: center;
-  }
+  /* ── Navigation ── */
+  .card-footer { padding: 0 22px 22px; display: flex; gap: 8px; align-items: center; }
   .btn {
     border: none;
     border-radius: var(--radius-sm);
-    padding: 12px 22px;
+    padding: 11px 18px;
     font-family: 'Noto Sans JP', sans-serif;
     font-size: 14px;
     font-weight: 700;
@@ -479,48 +331,32 @@
     transition: all var(--transition);
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     white-space: nowrap;
   }
-  .btn-primary {
-    background: var(--navy);
-    color: var(--white);
-    flex: 1;
-    justify-content: center;
-  }
-  .btn-primary:hover {
-    background: var(--navy-light);
-    box-shadow: 0 4px 14px rgba(28,43,74,0.3);
-    transform: translateY(-1px);
-  }
+  .btn .material-icons { font-size: 18px; }
+  .btn-primary { background: var(--navy); color: var(--white); flex: 1; justify-content: center; }
+  .btn-primary:hover { background: var(--navy-light); box-shadow: 0 3px 12px rgba(26,40,68,0.25); }
   .btn-secondary {
     background: var(--gray-100);
     color: var(--gray-600);
-    min-width: 80px;
+    width: 44px; height: 44px;
+    padding: 0;
     justify-content: center;
+    flex-shrink: 0;
   }
-  .btn-secondary:hover {
-    background: var(--gray-200);
-    color: var(--gray-800);
-  }
+  .btn-secondary:hover { background: var(--gray-200); color: var(--gray-800); }
+  .btn-secondary .material-icons { font-size: 20px; }
   .btn-skip {
     background: transparent;
     color: var(--gray-400);
     border: 1.5px solid var(--gray-200);
-    min-width: 90px;
-    justify-content: center;
+    padding: 10px 13px;
     font-weight: 500;
+    font-size: 12px;
+    flex-shrink: 0;
   }
-  .btn-skip:hover {
-    border-color: var(--gray-400);
-    color: var(--gray-600);
-  }
-  .btn:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-    transform: none !important;
-    box-shadow: none !important;
-  }
+  .btn-skip:hover { border-color: var(--gray-400); color: var(--gray-600); }
 
   /* ── Result ── */
   .result-card {
@@ -529,141 +365,45 @@
     border: 1px solid var(--gray-200);
     box-shadow: var(--shadow-lg);
     overflow: hidden;
-    animation: slideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  .result-header {
-    background: linear-gradient(135deg, var(--accent) 0%, #B5663A 100%);
-    padding: 24px 28px;
-    position: relative;
-    overflow: hidden;
-  }
-  .result-header::after {
-    content: '✨';
-    position: absolute;
-    right: 24px; top: 50%;
-    transform: translateY(-50%);
-    font-size: 40px;
-    opacity: 0.3;
-  }
+  .result-header { background: var(--navy); padding: 20px 24px; }
   .result-header-label {
-    color: rgba(255,255,255,0.7);
-    font-size: 11px;
-    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.45);
+    font-size: 10px;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     font-weight: 700;
     margin-bottom: 6px;
   }
   .result-header-title {
-    font-family: 'Noto Serif JP', serif;
     color: var(--white);
-    font-size: 20px;
+    font-size: 17px;
     font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
-  .result-body { padding: 24px 28px; }
+  .result-header-title .material-icons { color: #7BAFD4; font-size: 20px; }
+  .result-body { padding: 20px 22px; }
   .prompt-box {
-    background: var(--gray-50);
+    background: var(--bg);
     border: 1.5px solid var(--gray-200);
     border-radius: var(--radius-sm);
-    padding: 20px;
+    padding: 16px;
     font-size: 14px;
-    line-height: 1.85;
+    line-height: 1.9;
     color: var(--gray-800);
     white-space: pre-wrap;
     word-break: break-all;
-    margin-bottom: 16px;
-    min-height: 120px;
+    margin-bottom: 14px;
     font-family: 'Noto Sans JP', sans-serif;
   }
-  .copy-btn {
+  .action-btn {
     width: 100%;
-    background: var(--navy);
-    color: var(--white);
     border: none;
     border-radius: var(--radius-sm);
-    padding: 14px;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all var(--transition);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    margin-bottom: 12px;
-  }
-  .copy-btn:hover {
-    background: var(--navy-light);
-    box-shadow: 0 4px 14px rgba(28,43,74,0.3);
-    transform: translateY(-1px);
-  }
-  .copy-btn.copied {
-    background: var(--success);
-  }
-  .hint-box {
-    background: var(--accent-bg);
-    border: 1px solid rgba(201,125,78,0.2);
-    border-radius: var(--radius-sm);
-    padding: 14px 16px;
-    font-size: 13px;
-    color: var(--gray-700, #3d4a60);
-    line-height: 1.6;
-  }
-  .hint-box strong { color: var(--accent); }
-
-  .chatgpt-btn {
-    width: 100%;
-    background: linear-gradient(135deg, #10a37f 0%, #0b8a6a 100%);
-    color: var(--white);
-    border: none;
-    border-radius: var(--radius-sm);
-    padding: 15px;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all var(--transition);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 9px;
-    margin-bottom: 10px;
-    letter-spacing: 0.02em;
-  }
-  .chatgpt-btn:hover {
-    background: linear-gradient(135deg, #0d8c6e 0%, #087558 100%);
-    box-shadow: 0 4px 18px rgba(16,163,127,0.35);
-    transform: translateY(-1px);
-  }
-  .chatgpt-btn:active { transform: translateY(0); }
-  .chatgpt-btn.opening {
-    background: linear-gradient(135deg, #0b8a6a 0%, #087558 100%);
-    opacity: 0.85;
-    cursor: wait;
-  }
-  .chatgpt-note {
-    font-size: 12px;
-    color: var(--gray-600);
-    line-height: 1.7;
-    padding: 10px 14px;
-    background: #f0faf7;
-    border: 1px solid rgba(16,163,127,0.18);
-    border-radius: var(--radius-sm);
-    margin-bottom: 16px;
-    text-align: center;
-  }
-  .result-actions {
-    padding: 0 28px 28px;
-    display: flex;
-    gap: 10px;
-  }
-  .btn-restart {
-    flex: 1;
-    background: var(--gray-100);
-    color: var(--gray-700, #3d4a60);
-    border: none;
-    border-radius: var(--radius-sm);
-    padding: 12px;
+    padding: 13px;
     font-family: 'Noto Sans JP', sans-serif;
     font-size: 14px;
     font-weight: 700;
@@ -672,37 +412,60 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 7px;
+    margin-bottom: 10px;
   }
-  .btn-restart:hover {
-    background: var(--gray-200);
+  .action-btn .material-icons { font-size: 18px; }
+  .chatgpt-btn { background: #0A7F5B; color: var(--white); }
+  .chatgpt-btn:hover { background: #08694A; box-shadow: 0 3px 14px rgba(10,127,91,0.3); }
+  .chatgpt-note {
+    font-size: 12px;
+    color: #2D6E52;
+    line-height: 1.7;
+    padding: 10px 14px;
+    background: #EAF7F2;
+    border: 1px solid rgba(10,127,91,0.18);
+    border-radius: var(--radius-sm);
+    margin-bottom: 10px;
+    display: none;
+    text-align: center;
   }
+  .copy-btn { background: var(--navy); color: var(--white); }
+  .copy-btn:hover { background: var(--navy-light); box-shadow: 0 3px 12px rgba(26,40,68,0.25); }
+  .copy-btn.copied { background: var(--success); }
+  .result-actions { padding: 0 22px 22px; display: flex; gap: 8px; }
+  .btn-restart, .btn-change-client {
+    flex: 1;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 11px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+  }
+  .btn-restart { background: var(--gray-100); color: var(--gray-600); }
+  .btn-restart:hover { background: var(--gray-200); color: var(--gray-800); }
+  .btn-change-client { background: var(--blue-light); color: var(--blue); border: 1.5px solid rgba(59,110,191,0.25); }
+  .btn-change-client:hover { background: #dce6f7; }
+  .btn-restart .material-icons, .btn-change-client .material-icons { font-size: 16px; }
 
   /* ── History ── */
-  .history-section {
-    margin-top: 32px;
-  }
-  .history-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-  }
-  .history-title {
-    font-family: 'Noto Serif JP', serif;
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--navy);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
+  .history-section { margin-top: 26px; }
+  .history-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .history-title { font-size: 13px; font-weight: 700; color: var(--navy); display: flex; align-items: center; gap: 6px; }
+  .history-title .material-icons { font-size: 17px; color: var(--gray-400); }
   .history-count {
     background: var(--navy);
     color: white;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
-    width: 20px; height: 20px;
+    width: 18px; height: 18px;
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
   }
@@ -714,37 +477,35 @@
     cursor: pointer;
     padding: 4px 8px;
     border-radius: 4px;
+    font-family: 'Noto Sans JP', sans-serif;
     transition: color var(--transition);
   }
-  .clear-all-btn:hover { color: #c0392b; }
-
+  .clear-all-btn:hover { color: #C0392B; }
   .history-empty {
     background: var(--white);
     border: 1.5px dashed var(--gray-200);
     border-radius: var(--radius);
-    padding: 32px;
+    padding: 28px;
     text-align: center;
     color: var(--gray-400);
-    font-size: 14px;
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
   }
-  .history-empty-icon { font-size: 32px; margin-bottom: 8px; }
-
-  .history-list { display: flex; flex-direction: column; gap: 10px; }
+  .history-empty .material-icons { font-size: 30px; color: var(--gray-200); }
+  .history-list { display: flex; flex-direction: column; gap: 8px; }
   .history-card {
     background: var(--white);
     border: 1px solid var(--gray-200);
     border-radius: var(--radius-sm);
-    padding: 16px;
+    padding: 13px 15px;
     box-shadow: var(--shadow-sm);
     transition: box-shadow var(--transition);
   }
   .history-card:hover { box-shadow: var(--shadow-md); }
-  .history-meta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 8px;
-  }
+  .history-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 7px; gap: 8px; }
   .history-badge {
     background: var(--navy);
     color: white;
@@ -752,13 +513,14 @@
     font-weight: 700;
     padding: 2px 10px;
     border-radius: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 220px;
   }
-  .history-date {
-    font-size: 11px;
-    color: var(--gray-400);
-  }
+  .history-date { font-size: 11px; color: var(--gray-400); flex-shrink: 0; }
   .history-preview {
-    font-size: 13px;
+    font-size: 12px;
     color: var(--gray-600);
     line-height: 1.6;
     display: -webkit-box;
@@ -767,15 +529,12 @@
     overflow: hidden;
     margin-bottom: 10px;
   }
-  .history-actions {
-    display: flex;
-    gap: 8px;
-  }
+  .history-actions { display: flex; gap: 6px; }
   .h-btn {
     border: 1.5px solid var(--gray-200);
     background: var(--white);
     border-radius: 6px;
-    padding: 6px 12px;
+    padding: 5px 10px;
     font-size: 12px;
     font-weight: 600;
     cursor: pointer;
@@ -786,53 +545,59 @@
     align-items: center;
     gap: 4px;
   }
+  .h-btn .material-icons { font-size: 14px; }
   .h-btn:hover { border-color: var(--navy); color: var(--navy); }
   .h-btn.copied { border-color: var(--success); color: var(--success); }
   .h-btn.del { margin-left: auto; }
-  .h-btn.del:hover { border-color: #c0392b; color: #c0392b; }
+  .h-btn.del:hover { border-color: #C0392B; color: #C0392B; }
 
   /* ── Responsive ── */
   @media (max-width: 480px) {
-    .app-container { padding: 16px 12px 60px; }
-    .card-header, .card-body, .card-footer, .result-body, .result-actions { padding-left: 18px; padding-right: 18px; }
-    .options-grid { grid-template-columns: 1fr; }
-    .card-title { font-size: 17px; }
-    .date-row { flex-direction: column; gap: 8px; align-items: stretch; }
-    .date-sep { display: none; }
+    .app-container { padding: 14px 12px 60px; }
+    .card-header   { padding: 16px 16px 14px; }
+    .card-body     { padding: 16px; }
+    .card-footer   { padding: 0 16px 16px; }
+    .result-body   { padding: 16px; }
+    .result-actions { padding: 0 16px 16px; flex-direction: column; }
+    .card-title    { font-size: 15px; }
+    .options-grid  { grid-template-columns: 1fr; }
+    .options-grid.odd-last > .option-btn:last-child:nth-child(odd) { grid-column: auto; }
+    .client-grid   { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
 
 <header class="app-header">
-  <div class="header-logo">🏠</div>
-  <div>
-    <div class="header-title">住宅広告 プロンプトウィザード</div>
-    <div class="header-sub">ChatGPT・Gemini向け 画像生成プロンプトを作成</div>
+  <span class="material-icons header-icon">home</span>
+  <div class="header-text">
+    <div class="header-title-row">
+      <span class="header-title">住宅広告 プロンプトウィザード</span>
+      <span class="header-client" id="headerClient"></span>
+    </div>
+    <div class="header-sub">画像生成プロンプトを作成</div>
   </div>
 </header>
 
 <div class="app-container">
-  <!-- Progress -->
   <div class="progress-wrap" id="progressWrap">
-    <div class="progress-meta">
-      <div class="progress-label">進捗</div>
-      <div class="progress-fraction" id="progressFraction">1<span> / 9</span></div>
+    <div class="progress-top">
+      <div class="progress-step-label">STEP</div>
+      <div class="progress-fraction" id="progressFraction">1<span> / 8</span></div>
     </div>
     <div class="progress-bar">
-      <div class="progress-fill" id="progressFill" style="width:11%"></div>
+      <div class="progress-fill" id="progressFill" style="width:12.5%"></div>
     </div>
     <div class="step-dots" id="stepDots"></div>
   </div>
 
-  <!-- Wizard -->
   <div id="wizardArea"></div>
 
-  <!-- History -->
   <div class="history-section">
     <div class="history-header">
       <div class="history-title">
-        📋 生成履歴
+        <span class="material-icons">history</span>
+        生成履歴
         <div class="history-count" id="historyCount">0</div>
       </div>
       <button class="clear-all-btn" onclick="clearAllHistory()">すべて削除</button>
@@ -842,123 +607,146 @@
 </div>
 
 <script>
-// ─── State ───────────────────────────────────────────────
+// ─── クライアントデータ ──────────────────────────────────────────
+// clients/ フォルダに新しい .md を追加した場合はここにも追記してください
+const CLIENTS = [
+  {
+    id: 'nasu-kensetsu',
+    name: '那須建設',
+    ngRules: [
+      '派手すぎる色・表現はNG',
+      'カジュアルすぎるデザインはNG',
+      'クールすぎる青系トーンはNG'
+    ],
+    referenceUrl: 'https://nas-con.co.jp/'
+  }
+  // 新しいクライアントはここに追記
+];
+
+// ─── State ──────────────────────────────────────────────────────
 const state = {
+  isClientSelected: false,
+  selectedClient:   null,   // null = 汎用
   currentStep: 0,
   answers: {
-    media: null, mediaOther: '',
-    ratio: null,
-    bannerTitle: '',
+    ratio:     null,
+    taste:     null,
+    title:     '',
     catchcopy: '',
-    dateMode: 'single', startDate: '', endDate: '', eventTime: '',
-    venue: '',
-    benefit: '',
-    designTaste: null,
-    logo: null,
-    usePhoto: null
+    date:      '',
+    venue:     '',
+    benefit:   '',
+    logo:      null
   }
 };
 
-const TOTAL_STEPS = 10;
+const TOTAL_STEPS = 8;
 
-// ─── Step Definitions ────────────────────────────────────
+// ─── Step Definitions ───────────────────────────────────────────
 const steps = [
   {
-    id: 'media', title: '媒体を選んでください', subtitle: '広告を掲載するプラットフォームを選択',
-    type: 'single',
+    id: 'ratio',
+    title: 'アスペクト比を選んでください',
+    subtitle: '広告の縦横比を選択してください',
+    type: 'single', required: true,
     options: [
-      { value: 'Meta広告（Facebook/Instagram）', icon: '📘', label: 'Meta広告', sub: 'Facebook / Instagram' },
-      { value: 'LINE広告', icon: '💬', label: 'LINE広告' },
-      { value: 'LINEリッチメニュー', icon: '📱', label: 'LINEリッチメニュー' },
-      { value: 'LINE配信（メッセージ画像）', icon: '✉️', label: 'LINE配信', sub: 'メッセージ画像' },
-      { value: 'Instagram投稿', icon: '📷', label: 'Instagram投稿' },
-      { value: '__other__', icon: '✏️', label: 'その他' }
+      { value: '1:1',  label: '1:1',  sub: '正方形' },
+      { value: '16:9', label: '16:9', sub: '横長' },
+      { value: '9:16', label: '9:16', sub: '縦長・ストーリーズ' },
+      { value: '4:5',  label: '4:5',  sub: 'Instagramフィード' },
+      { value: '2:1',  label: '2:1',  sub: '横長バナー' }
     ]
   },
   {
-    id: 'ratio', title: 'アスペクト比を選んでください', subtitle: '媒体に適した比率が上位に表示されます',
-    type: 'ratio',
+    id: 'taste',
+    title: 'テイストを選んでください',
+    subtitle: '広告ビジュアルの雰囲気を選択してください',
+    type: 'single', required: true,
     options: [
-      { value: '1:1（正方形）', icon: '⬜', label: '1:1', sub: '正方形', recommended: [] },
-      { value: '16:9（横長）', icon: '📺', label: '16:9', sub: '横長', recommended: ['Meta広告（Facebook/Instagram）', 'LINEリッチメニュー'] },
-      { value: '9:16（縦長・ストーリーズ）', icon: '📱', label: '9:16', sub: '縦長・ストーリーズ', recommended: ['Meta広告（Facebook/Instagram）', 'LINE広告', 'Instagram投稿'] },
-      { value: '4:5（Instagramフィード）', icon: '🖼', label: '4:5', sub: 'Instagramフィード', recommended: ['Instagram投稿'] },
-      { value: '2:1（横長バナー）', icon: '🏷', label: '2:1', sub: '横長バナー', recommended: ['LINE配信（メッセージ画像）', 'LINEリッチメニュー'] }
+      { value: '高級感・洗練',         label: '高級感・洗練',         sub: '上質でリッチな印象' },
+      { value: 'ナチュラル・温かみ',    label: 'ナチュラル・温かみ',    sub: '自然素材・家族らしさ' },
+      { value: 'モダン・スタイリッシュ', label: 'モダン・スタイリッシュ', sub: '洗練されたクリーンな印象' },
+      { value: 'ポップ・親しみやすい',  label: 'ポップ・親しみやすい',  sub: '明るく気軽なトーン' },
+      { value: 'クール・シンプル',      label: 'クール・シンプル',      sub: '無駄を省いたクリアな表現' }
     ]
   },
   {
-    id: 'bannerTitle', title: 'タイトルを入力してください', subtitle: 'バナー中央に大きく表示されるメインタイトル',
-    type: 'text',
+    id: 'title',
+    title: 'タイトルを入力してください',
+    subtitle: 'バナーのメインタイトル',
+    type: 'text', required: true,
     placeholder: '例：OPEN HOUSE',
-    hints: ['OPEN HOUSE', '完成見学会', 'モデルハウス公開中', '住まいの相談会']
+    hint: '例：OPEN HOUSE・完成見学会・モデルハウス公開中'
   },
   {
-    id: 'catchcopy', title: 'キャッチコピーを入力してください', subtitle: 'タイトルの下に添えるサブコピー（短め推奨）',
-    type: 'text',
+    id: 'catchcopy',
+    title: 'キャッチコピーを入力してください',
+    subtitle: 'サブコピー（任意）',
+    type: 'text', required: false,
     placeholder: '例：家族の夢を、カタチに。',
-    hints: ['家族の夢を、カタチに。', '理想の住まい、見つかります。', 'ご家族みなさまでご来場ください'],
-    hint2: '短く・端的に。10〜20文字程度が読みやすく映えます'
+    hint: '短く端的に。10〜20文字程度が映えます'
   },
   {
-    id: 'datetime', title: '開催日時を入力してください', subtitle: '日程と開始時間をご入力ください（スキップ可）',
-    type: 'datetime'
+    id: 'date',
+    title: '日付を入力してください',
+    subtitle: '開催日（任意）',
+    type: 'date', required: false
   },
   {
-    id: 'venue', title: '開催地を入力してください', subtitle: '会場名・住所など（スキップ可）',
-    type: 'text',
-    placeholder: '例：○○市△△町1-2-3 モデルハウス会場',
-    hints: []
+    id: 'venue',
+    title: '開催場所を入力してください',
+    subtitle: '会場名・住所など（任意）',
+    type: 'text', required: false,
+    placeholder: '例：○○市△△町1-2-3 モデルハウス会場'
   },
   {
-    id: 'benefit', title: '来場特典を入力してください', subtitle: 'ご来場者へのプレゼント・特典内容（スキップ可）',
-    type: 'text',
+    id: 'benefit',
+    title: '来場特典を入力してください',
+    subtitle: 'ご来場者への特典内容（任意）',
+    type: 'text', required: false,
     placeholder: '例：クオカード500円分プレゼント',
-    hints: ['クオカード500円分プレゼント', 'お子様にお菓子プレゼント', '先着30組限定特典あり']
+    hint: '例：クオカード500円分・お子様へのお菓子プレゼント'
   },
   {
-    id: 'designTaste', title: 'デザインテイストを選んでください', subtitle: '広告ビジュアル全体のトーンを選択',
-    type: 'single',
+    id: 'logo',
+    title: 'ロゴの使用',
+    subtitle: 'バナーにロゴスペースを確保しますか？',
+    type: 'yesno', required: true,
     options: [
-      { value: '高級感・ラグジュアリー', icon: '💎', label: '高級感・ラグジュアリー', sub: '上質でリッチな印象' },
-      { value: 'ナチュラル・温かみ', icon: '🌿', label: 'ナチュラル・温かみ', sub: '自然素材・家族らしさ' },
-      { value: 'モダン・スタイリッシュ', icon: '🖤', label: 'モダン・スタイリッシュ', sub: '洗練されたクリーンな印象' },
-      { value: 'ポップ・親しみやすい', icon: '🌈', label: 'ポップ・親しみやすい', sub: '明るく気軽なトーン' }
-    ]
-  },
-  {
-    id: 'logo', title: 'ロゴの使用', subtitle: 'バナーにロゴスペースを確保しますか？',
-    type: 'yesno',
-    options: [
-      { value: 'あり', icon: '🏷️', label: 'あり', sub: '右下にロゴ枠を確保' },
-      { value: 'なし', icon: '✖️', label: 'なし', sub: 'ロゴなし' }
-    ]
-  },
-  {
-    id: 'usePhoto', title: '写真の使用', subtitle: '背景に実際の写真を使いますか？',
-    type: 'yesno',
-    options: [
-      { value: 'あり', icon: '📸', label: 'あり', sub: '添付写真を背景に使用' },
-      { value: 'なし', icon: '🎨', label: 'なし', sub: 'AIにデザインを生成させる' }
+      { value: 'あり', label: 'あり', sub: '右下にロゴ枠を確保', icon: 'verified' },
+      { value: 'なし', label: 'なし', sub: 'ロゴなし',           icon: 'block' }
     ]
   }
 ];
 
-// ─── Rendering ───────────────────────────────────────────
+// ─── Header ─────────────────────────────────────────────────────
+function updateHeaderClient() {
+  const el = document.getElementById('headerClient');
+  if (state.isClientSelected && state.selectedClient) {
+    el.textContent = state.selectedClient.name;
+    el.style.display = '';
+  } else if (state.isClientSelected && !state.selectedClient) {
+    el.textContent = '汎用';
+    el.style.display = '';
+  } else {
+    el.style.display = 'none';
+  }
+}
+
+// ─── Rendering ──────────────────────────────────────────────────
 function renderProgress() {
+  const isResult = state.currentStep >= TOTAL_STEPS;
+  const showProgress = state.isClientSelected && !isResult;
+  document.getElementById('progressWrap').style.display = showProgress ? '' : 'none';
+  if (!showProgress) return;
+
   const step = state.currentStep;
-  const total = TOTAL_STEPS;
-  const isResult = step >= total;
-
-  document.getElementById('progressWrap').style.display = isResult ? 'none' : '';
-  if (isResult) return;
-
-  document.getElementById('progressFraction').innerHTML = `${step + 1}<span> / ${total}</span>`;
-  const pct = ((step + 1) / total) * 100;
-  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressFraction').innerHTML = `${step + 1}<span> / ${TOTAL_STEPS}</span>`;
+  document.getElementById('progressFill').style.width = ((step + 1) / TOTAL_STEPS * 100) + '%';
 
   const dotsEl = document.getElementById('stepDots');
   dotsEl.innerHTML = '';
-  for (let i = 0; i < total; i++) {
+  for (let i = 0; i < TOTAL_STEPS; i++) {
     const d = document.createElement('div');
     d.className = 'step-dot' + (i < step ? ' done' : i === step ? ' current' : '');
     dotsEl.appendChild(d);
@@ -966,21 +754,95 @@ function renderProgress() {
 }
 
 function renderStep() {
+  updateHeaderClient();
   renderProgress();
   const area = document.getElementById('wizardArea');
+  area.innerHTML = '';
+
+  if (!state.isClientSelected) {
+    area.appendChild(buildClientSelection());
+    return;
+  }
 
   if (state.currentStep >= TOTAL_STEPS) {
-    area.innerHTML = '';
     area.appendChild(buildResult());
     renderHistory();
     return;
   }
 
-  const s = steps[state.currentStep];
-  area.innerHTML = '';
-  area.appendChild(buildStepCard(s));
+  area.appendChild(buildStepCard(steps[state.currentStep]));
 }
 
+// ─── Client Selection ───────────────────────────────────────────
+function buildClientSelection() {
+  const card = document.createElement('div');
+  card.className = 'wizard-card';
+
+  card.innerHTML = `
+    <div class="card-header">
+      <div class="step-badge">STEP 0</div>
+      <div class="card-title">顧客を選択してください</div>
+      <div class="card-subtitle">広告を作成する企業・ブランドを選択してください</div>
+    </div>
+    <div class="card-body" id="clientBody">
+      <div class="client-grid" id="clientGrid"></div>
+      <button class="client-generic-btn" id="genericBtn">
+        <span class="material-icons">public</span>
+        <span class="client-generic-label">顧客なし（汎用）</span>
+      </button>
+    </div>
+    <div class="card-footer">
+      <button class="btn btn-primary" id="clientNextBtn" onclick="confirmClientSelection()">
+        次へ <span class="material-icons">arrow_forward</span>
+      </button>
+    </div>
+  `;
+
+  const grid = card.querySelector('#clientGrid');
+  CLIENTS.forEach(client => {
+    const btn = document.createElement('button');
+    btn.className = 'client-btn';
+    if (state.selectedClient && state.selectedClient.id === client.id) btn.classList.add('selected');
+    btn.innerHTML = `
+      <span class="material-icons">business</span>
+      <span class="client-btn-text">
+        <span class="client-btn-name">${escHtml(client.name)}</span>
+        <span class="client-btn-sub">${escHtml(client.referenceUrl)}</span>
+      </span>
+    `;
+    btn.onclick = () => {
+      state.selectedClient = client;
+      grid.querySelectorAll('.client-btn').forEach(b => b.classList.remove('selected'));
+      card.querySelector('#genericBtn').classList.remove('selected');
+      btn.classList.add('selected');
+    };
+    grid.appendChild(btn);
+  });
+
+  const genericBtn = card.querySelector('#genericBtn');
+  if (state.isClientSelected === false && state.selectedClient === null) {
+    // nothing preselected
+  }
+  if (state.selectedClient === null && state.isClientSelected) {
+    genericBtn.classList.add('selected');
+  }
+  genericBtn.onclick = () => {
+    state.selectedClient = null;
+    grid.querySelectorAll('.client-btn').forEach(b => b.classList.remove('selected'));
+    genericBtn.classList.add('selected');
+  };
+
+  return card;
+}
+
+function confirmClientSelection() {
+  state.isClientSelected = true;
+  state.currentStep = 0;
+  renderStep();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── Wizard Card ────────────────────────────────────────────────
 function buildStepCard(s) {
   const card = document.createElement('div');
   card.className = 'wizard-card';
@@ -988,25 +850,18 @@ function buildStepCard(s) {
   const hdr = document.createElement('div');
   hdr.className = 'card-header';
   hdr.innerHTML = `
-    <div class="step-badge">STEP ${state.currentStep + 1}</div>
-    <div class="card-title">${s.title}</div>
-    ${s.subtitle ? `<div class="card-subtitle">${s.subtitle}</div>` : ''}
+    <div class="step-badge">STEP ${state.currentStep + 1} / ${TOTAL_STEPS}</div>
+    <div class="card-title">${escHtml(s.title)}</div>
+    ${s.subtitle ? `<div class="card-subtitle">${escHtml(s.subtitle)}</div>` : ''}
   `;
   card.appendChild(hdr);
 
   const body = document.createElement('div');
   body.className = 'card-body';
-
-  if (s.type === 'single' || s.type === 'ratio') {
-    body.appendChild(buildSingleOptions(s));
-  } else if (s.type === 'yesno') {
-    body.appendChild(buildYesNo(s));
-  } else if (s.type === 'text') {
-    body.appendChild(buildTextInput(s));
-  } else if (s.type === 'datetime') {
-    body.appendChild(buildDateTimeInput());
-  }
-
+  if      (s.type === 'single') body.appendChild(buildSingleOptions(s));
+  else if (s.type === 'yesno')  body.appendChild(buildYesNo(s));
+  else if (s.type === 'text')   body.appendChild(buildTextInput(s));
+  else if (s.type === 'date')   body.appendChild(buildDateInput());
   card.appendChild(body);
 
   const footer = document.createElement('div');
@@ -1015,84 +870,67 @@ function buildStepCard(s) {
   if (state.currentStep > 0) {
     const backBtn = document.createElement('button');
     backBtn.className = 'btn btn-secondary';
-    backBtn.innerHTML = '← 戻る';
+    backBtn.innerHTML = '<span class="material-icons">arrow_back</span>';
+    backBtn.title = '戻る';
     backBtn.onclick = () => { state.currentStep--; renderStep(); };
     footer.appendChild(backBtn);
+  } else {
+    const backToClientBtn = document.createElement('button');
+    backToClientBtn.className = 'btn btn-secondary';
+    backToClientBtn.innerHTML = '<span class="material-icons">arrow_back</span>';
+    backToClientBtn.title = '顧客選択に戻る';
+    backToClientBtn.onclick = () => { state.isClientSelected = false; renderStep(); };
+    footer.appendChild(backToClientBtn);
   }
 
   const isLast = state.currentStep === TOTAL_STEPS - 1;
   const nextBtn = document.createElement('button');
   nextBtn.className = 'btn btn-primary';
-  nextBtn.innerHTML = isLast ? '✨ プロンプトを生成' : '次へ →';
+  nextBtn.innerHTML = isLast
+    ? '<span class="material-icons">auto_awesome</span> プロンプトを生成'
+    : '次へ <span class="material-icons">arrow_forward</span>';
   nextBtn.onclick = () => handleNext();
   footer.appendChild(nextBtn);
 
-  const skipBtn = document.createElement('button');
-  skipBtn.className = 'btn btn-skip';
-  skipBtn.innerHTML = 'スキップ';
-  skipBtn.onclick = () => {
-    state.currentStep++;
-    if (state.currentStep >= TOTAL_STEPS) saveToHistory(generatePrompt());
-    renderStep();
-  };
-  footer.appendChild(skipBtn);
+  if (!s.required) {
+    const skipBtn = document.createElement('button');
+    skipBtn.className = 'btn btn-skip';
+    skipBtn.textContent = 'スキップ';
+    skipBtn.onclick = () => {
+      state.currentStep++;
+      if (state.currentStep >= TOTAL_STEPS) saveToHistory(generatePrompt());
+      renderStep();
+    };
+    footer.appendChild(skipBtn);
+  }
 
   card.appendChild(footer);
   return card;
 }
 
-// ─── Input Builders ──────────────────────────────────────
+// ─── Input Builders ─────────────────────────────────────────────
 function buildSingleOptions(s) {
+  const wrap = document.createElement('div');
   const grid = document.createElement('div');
-  const isMedia = s.id === 'media';
-  const selectedMedia = state.answers.media;
+  grid.className = 'options-grid' + (s.options.length % 2 !== 0 ? ' odd-last' : '');
 
-  let opts = [...s.options];
-  if (s.type === 'ratio' && selectedMedia) {
-    opts.sort((a, b) => {
-      const ar = a.recommended && a.recommended.includes(selectedMedia) ? 0 : 1;
-      const br = b.recommended && b.recommended.includes(selectedMedia) ? 0 : 1;
-      return ar - br;
-    });
-  }
-
-  grid.className = 'options-grid' + (opts.length <= 3 ? ' single-col' : '');
-
-  opts.forEach(opt => {
+  s.options.forEach(opt => {
     const btn = document.createElement('button');
     btn.className = 'option-btn';
     if (state.answers[s.id] === opt.value) btn.classList.add('selected');
-
-    const isRec = s.type === 'ratio' && opt.recommended && selectedMedia && opt.recommended.includes(selectedMedia);
     btn.innerHTML = `
-      <span class="opt-icon">${opt.icon}</span>
-      <span class="opt-text">${opt.label}${opt.sub ? `<br><small style="opacity:0.7;font-size:11px">${opt.sub}</small>` : ''}</span>
-      ${isRec ? '<span class="opt-badge">おすすめ</span>' : ''}
+      <span class="opt-main">${escHtml(opt.label)}</span>
+      ${opt.sub ? `<span class="opt-sub">${escHtml(opt.sub)}</span>` : ''}
     `;
     btn.onclick = () => {
       state.answers[s.id] = opt.value;
       grid.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
       btn.classList.add('selected');
-      const otherWrap = document.getElementById('otherWrap');
-      if (otherWrap) otherWrap.style.display = (isMedia && opt.value === '__other__') ? '' : 'none';
-      if (isMedia && opt.value === '__other__') document.getElementById('otherInput')?.focus();
     };
     grid.appendChild(btn);
   });
 
-  const wrap = document.createElement('div');
   wrap.appendChild(grid);
-
-  if (isMedia) {
-    const otherWrap = document.createElement('div');
-    otherWrap.id = 'otherWrap';
-    otherWrap.className = 'other-input-wrap';
-    otherWrap.style.display = state.answers.media === '__other__' ? '' : 'none';
-    otherWrap.innerHTML = `<input id="otherInput" class="text-input" type="text" placeholder="媒体名を入力してください" value="${escAttr(state.answers.mediaOther)}">`;
-    otherWrap.querySelector('input').addEventListener('input', e => { state.answers.mediaOther = e.target.value; });
-    wrap.appendChild(otherWrap);
-  }
-
   return wrap;
 }
 
@@ -1105,9 +943,9 @@ function buildYesNo(s) {
     btn.className = 'yesno-btn';
     if (state.answers[s.id] === opt.value) btn.classList.add('selected');
     btn.innerHTML = `
-      <span class="yesno-icon">${opt.icon}</span>
-      <span class="yesno-label">${opt.label}</span>
-      <span class="yesno-sub">${opt.sub}</span>
+      <span class="material-icons yesno-icon">${opt.icon}</span>
+      <span class="yesno-label">${escHtml(opt.label)}</span>
+      <span class="yesno-sub">${escHtml(opt.sub)}</span>
     `;
     btn.onclick = () => {
       state.answers[s.id] = opt.value;
@@ -1121,236 +959,164 @@ function buildYesNo(s) {
 }
 
 function buildTextInput(s) {
-  const key = s.id;
-  const val = state.answers[key] || '';
   const wrap = document.createElement('div');
   wrap.className = 'input-group';
-  const hintsHtml = s.hints && s.hints.length
-    ? `<div class="input-hint">例：<em>${s.hints.join('</em>・<em>')}</em></div>`
-    : '';
-  const hint2Html = s.hint2
-    ? `<div class="input-hint" style="margin-top:4px">💡 ${s.hint2}</div>`
-    : '';
   wrap.innerHTML = `
-    <input class="text-input" type="text" placeholder="${s.placeholder || ''}" value="${escAttr(val)}">
-    ${hintsHtml}${hint2Html}
+    <input class="text-input" type="text"
+      placeholder="${escAttr(s.placeholder || '')}"
+      value="${escAttr(state.answers[s.id] || '')}">
+    ${s.hint ? `<div class="input-hint">${escHtml(s.hint)}</div>` : ''}
   `;
-  wrap.querySelector('input').addEventListener('input', e => { state.answers[key] = e.target.value; });
+  wrap.querySelector('input').addEventListener('input', e => { state.answers[s.id] = e.target.value; });
   return wrap;
 }
 
-function buildDateTimeInput() {
+function buildDateInput() {
   const wrap = document.createElement('div');
-  const isRange = state.answers.dateMode === 'range';
-
+  wrap.className = 'input-group';
   wrap.innerHTML = `
-    <div class="date-mode-toggle">
-      <button class="date-mode-btn ${!isRange ? 'active' : ''}" id="btnSingle">単日</button>
-      <button class="date-mode-btn ${isRange ? 'active' : ''}" id="btnRange">期間指定</button>
-    </div>
-    <div class="datetime-row">
-      <div class="date-row">
-        <input type="date" id="startDate" value="${state.answers.startDate}">
-        <span class="date-sep" id="dateSep" style="${isRange ? '' : 'display:none'}">〜</span>
-        <input type="date" id="endDate" value="${state.answers.endDate}" style="${isRange ? '' : 'display:none'}">
-      </div>
-      <div class="datetime-time-row">
-        <span class="datetime-label">開始時間</span>
-        <input type="time" id="eventTime" value="${state.answers.eventTime}">
-        <span class="input-hint" style="margin:0">（任意）</span>
-      </div>
-    </div>
+    <input class="date-input" type="date" value="${escAttr(state.answers.date || '')}">
+    <div class="input-hint">開催日を選択してください</div>
   `;
-
-  wrap.querySelector('#btnSingle').onclick = () => {
-    state.answers.dateMode = 'single';
-    wrap.querySelector('#btnSingle').classList.add('active');
-    wrap.querySelector('#btnRange').classList.remove('active');
-    wrap.querySelector('#dateSep').style.display = 'none';
-    wrap.querySelector('#endDate').style.display = 'none';
-  };
-  wrap.querySelector('#btnRange').onclick = () => {
-    state.answers.dateMode = 'range';
-    wrap.querySelector('#btnRange').classList.add('active');
-    wrap.querySelector('#btnSingle').classList.remove('active');
-    wrap.querySelector('#dateSep').style.display = '';
-    wrap.querySelector('#endDate').style.display = '';
-  };
-  wrap.querySelector('#startDate').addEventListener('change', e => { state.answers.startDate = e.target.value; });
-  wrap.querySelector('#endDate').addEventListener('change', e => { state.answers.endDate = e.target.value; });
-  wrap.querySelector('#eventTime').addEventListener('change', e => { state.answers.eventTime = e.target.value; });
-
+  wrap.querySelector('input').addEventListener('change', e => { state.answers.date = e.target.value; });
   return wrap;
 }
 
-// ─── Navigation ──────────────────────────────────────────
+// ─── Navigation ─────────────────────────────────────────────────
 function handleNext() {
   state.currentStep++;
   if (state.currentStep >= TOTAL_STEPS) saveToHistory(generatePrompt());
   renderStep();
 }
 
-// ─── Prompt Generation ───────────────────────────────────
+// ─── Prompt Generation ──────────────────────────────────────────
 function generatePrompt() {
   const a = state.answers;
+  const lines = ['添付画像を使用して画像を生成してください。', ''];
 
-  const media = a.media === '__other__' ? (a.mediaOther || 'その他の媒体') : (a.media || '各種媒体');
-  const ratio = a.ratio ? `${a.ratio}` : '';
-  const bannerTitle = a.bannerTitle || 'イベントタイトル';
-  const catchcopy = a.catchcopy || '';
-  const venue = a.venue || '';
-  const benefit = a.benefit || '';
-  const taste = a.designTaste || '清潔感のある';
-  const hasLogo = a.logo === 'あり';
-  const hasPhoto = a.usePhoto !== 'なし' && a.usePhoto !== null;
+  if (a.ratio)     lines.push(`アスペクト比：${a.ratio}`);
+  if (a.taste)     lines.push(`テイスト：${a.taste}`);
+  if (a.title)     lines.push(`タイトル：${a.title}`);
+  if (a.catchcopy) lines.push(`キャッチコピー：${a.catchcopy}`);
+  if (a.date) {
+    const dt = new Date(a.date + 'T00:00:00');
+    lines.push(`日付：${dt.getFullYear()}年${dt.getMonth() + 1}月${dt.getDate()}日`);
+  }
+  if (a.venue)   lines.push(`開催場所：${a.venue}`);
+  if (a.benefit) lines.push(`特典：${a.benefit}`);
+  if (a.logo)    lines.push(`ロゴ：${a.logo}`);
 
-  const fmt = d => {
-    const dt = new Date(d + 'T00:00:00');
-    return `${dt.getFullYear()}年${dt.getMonth()+1}月${dt.getDate()}日`;
-  };
-  let dateTimeStr = '';
-  if (a.startDate) {
-    dateTimeStr = (a.dateMode === 'range' && a.endDate)
-      ? `${fmt(a.startDate)}〜${fmt(a.endDate)}`
-      : fmt(a.startDate);
-    if (a.eventTime) {
-      const [h, m] = a.eventTime.split(':');
-      dateTimeStr += ` ${h}:${m}〜`;
+  // 顧客情報を末尾に追加
+  const c = state.selectedClient;
+  if (c) {
+    lines.push('');
+    lines.push(`参考HP：${c.referenceUrl} のデザインテイストを参考にして広告画像を作成してください。サイトの配色・フォントの雰囲気・全体のトーンを広告に反映すること。`);
+    if (c.ngRules && c.ngRules.length > 0) {
+      lines.push(`NGルール：${c.ngRules.join(' / ')}`);
     }
   }
-
-  const ratioText = ratio ? `${ratio}` : '';
-  const photoPrefix = hasPhoto ? '添付の写真を使用して、' : '';
-  const ratioSuffix = ratioText ? `${ratioText}` : '';
-
-  const lines = [];
-  lines.push(`${photoPrefix}${taste}な雰囲気の${media}向け${ratioSuffix ? ratioSuffix + ' ' : ''}広告バナーを作成してください。`);
-  lines.push('');
-  lines.push('【テキスト構成】');
-  lines.push(`・メインタイトル（大）：「${bannerTitle}」`);
-  if (catchcopy) lines.push(`・キャッチコピー（中）：「${catchcopy}」`);
-  if (dateTimeStr) lines.push(`・開催日時：${dateTimeStr}`);
-  if (venue) lines.push(`・会場：${venue}`);
-  if (benefit) lines.push(`・来場特典：${benefit}`);
-  lines.push('');
-  lines.push('【デザイン要件】');
-  lines.push('・文字はくっきりと読みやすく配置すること');
-  lines.push(`・${taste}なビジュアルトーンで統一`);
-  if (hasLogo) lines.push('・右下にロゴ配置用の余白スペースを確保');
-  lines.push('・住宅購入を検討するファミリー層に響く、明るく清潔感のある仕上がりにすること');
 
   return lines.join('\n');
 }
 
+// ─── Result ─────────────────────────────────────────────────────
 function buildResult() {
   const prompt = generatePrompt();
-  const a = state.answers;
-  const mediaLabel = a.media === '__other__' ? (a.mediaOther || 'その他') : (a.media || '—');
-
   const wrap = document.createElement('div');
   const card = document.createElement('div');
   card.className = 'result-card';
 
-  const promptEsc = escAttr(prompt);
   card.innerHTML = `
     <div class="result-header">
-      <div class="result-header-label">生成完了</div>
-      <div class="result-header-title">プロンプトが完成しました</div>
+      <div class="result-header-label">COMPLETE</div>
+      <div class="result-header-title">
+        <span class="material-icons">auto_awesome</span>
+        プロンプトが完成しました
+      </div>
     </div>
     <div class="result-body">
       <div class="prompt-box">${escHtml(prompt)}</div>
-      <button class="chatgpt-btn" id="chatgptBtn" onclick="openChatGPT(this, '${promptEsc}')">
-        <svg width="18" height="18" viewBox="0 0 41 41" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><path d="M37.532 16.87a9.963 9.963 0 00-.856-8.184 10.078 10.078 0 00-10.855-4.835 9.964 9.964 0 00-7.505-3.360 10.079 10.079 0 00-9.612 6.977 9.967 9.967 0 00-6.664 4.834 10.08 10.08 0 001.24 11.817 9.965 9.965 0 00.856 8.185 10.079 10.079 0 0010.855 4.835 9.965 9.965 0 007.504 3.360 10.079 10.079 0 009.617-6.981 9.967 9.967 0 006.663-4.834 10.079 10.079 0 00-1.243-11.814zM22.498 37.886a7.474 7.474 0 01-4.799-1.735c.061-.033.168-.091.237-.134l7.964-4.6a1.294 1.294 0 00.655-1.134V19.054l3.366 1.944a.12.12 0 01.066.092v9.299a7.505 7.505 0 01-7.49 7.496zM6.392 31.006a7.471 7.471 0 01-.894-5.023c.06.036.162.099.237.141l7.964 4.6a1.297 1.297 0 001.308 0l9.724-5.614v3.888a.12.12 0 01-.048.103L16.45 33.2a7.505 7.505 0 01-10.059-2.194zM4.297 13.62A7.469 7.469 0 018.2 10.333c0 .068-.004.19-.004.274v9.201a1.294 1.294 0 00.654 1.132l9.723 5.614-3.366 1.944a.12.12 0 01-.114.012L7.044 23.86a7.504 7.504 0 01-2.747-10.24zm27.658 6.437l-9.724-5.615 3.367-1.943a.121.121 0 01.114-.012l8.048 4.648a7.498 7.498 0 01-1.158 13.528v-9.476a1.293 1.293 0 00-.647-1.130zm3.35-5.043c-.059-.037-.162-.099-.236-.141l-7.965-4.6a1.298 1.298 0 00-1.308 0l-9.723 5.614v-3.888a.12.12 0 01.048-.103l8.048-4.648a7.498 7.498 0 0111.135 7.765zm-21.063 6.929l-3.367-1.944a.12.12 0 01-.065-.092v-9.299a7.497 7.497 0 0112.293-5.756 6.94 6.94 0 00-.236.134l-7.965 4.6a1.294 1.294 0 00-.654 1.132l-.006 11.225zm1.829-3.943l4.33-2.501 4.332 2.500v4.999l-4.331 2.5-4.331-2.5V18z" fill="currentColor"/></svg>
+      <button class="action-btn chatgpt-btn" id="chatgptBtn" onclick="openChatGPT(this)">
+        <span class="material-icons">open_in_new</span>
         ChatGPTで開く
       </button>
-      <div class="chatgpt-note" id="chatgptNote" style="display:none">
-        ✅ プロンプトを自動コピーしました。<br>ChatGPTの入力欄に貼り付けて、写真も一緒に添付して送信してください。
+      <div class="chatgpt-note" id="chatgptNote">
+        プロンプトを自動コピーしました。ChatGPTの入力欄に貼り付けて、写真も一緒に添付して送信してください。
       </div>
-      <button class="copy-btn" onclick="copyPrompt(this, '${promptEsc}')">
-        📋 プロンプトをコピー
+      <button class="action-btn copy-btn" id="copyBtn" onclick="copyPrompt(this)">
+        <span class="material-icons">content_copy</span>
+        プロンプトをコピー
       </button>
-      <div class="hint-box">
-        💡 上の <strong>「ChatGPTで開く」</strong> を押すとプロンプトが自動コピーされ、ChatGPTが開きます
-      </div>
     </div>
     <div class="result-actions">
+      <button class="btn-change-client" onclick="changeClient()">
+        <span class="material-icons">business</span>
+        顧客を変更
+      </button>
       <button class="btn-restart" onclick="restartWizard()">
-        🔄 最初からやり直す
+        <span class="material-icons">refresh</span>
+        同じ顧客でやり直す
       </button>
     </div>
   `;
+
   wrap.appendChild(card);
   return wrap;
 }
 
-// ─── Helpers ─────────────────────────────────────────────
-function escHtml(s) {
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-function escAttr(s) {
-  return (s || '').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,'\\n');
-}
-
-function decodeEscaped(text) {
-  return text.replace(/\\n/g, '\n').replace(/\\'/g, "'").replace(/\\\\/g, '\\');
-}
-
-function copyPrompt(btn, text) {
-  const decoded = decodeEscaped(text);
-  navigator.clipboard.writeText(decoded).then(() => {
-    const orig = btn.innerHTML;
-    btn.innerHTML = '✅ コピーしました！';
+// ─── Actions ────────────────────────────────────────────────────
+function copyPrompt(btn) {
+  if (btn.classList.contains('copied')) return;
+  const orig = btn.innerHTML;
+  navigator.clipboard.writeText(generatePrompt()).then(() => {
+    btn.innerHTML = '<span class="material-icons">check_circle</span> コピーしました';
     btn.classList.add('copied');
     setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('copied'); }, 2000);
   });
 }
 
-function openChatGPT(btn, text) {
-  const decoded = decodeEscaped(text);
+function openChatGPT(btn) {
   const note = document.getElementById('chatgptNote');
-  btn.classList.add('opening');
-  btn.innerHTML = btn.innerHTML.replace('ChatGPTで開く', 'コピー中…');
-
+  btn.style.opacity = '0.7';
+  btn.style.cursor = 'wait';
   const finish = () => {
-    if (note) note.style.display = '';
+    if (note) note.style.display = 'block';
     window.open('https://chatgpt.com/', '_blank', 'noopener');
-    btn.classList.remove('opening');
-    btn.innerHTML = btn.innerHTML.replace('コピー中…', 'ChatGPTで開く');
+    btn.style.opacity = '';
+    btn.style.cursor = '';
   };
-
-  navigator.clipboard.writeText(decoded).then(finish).catch(finish);
+  navigator.clipboard.writeText(generatePrompt()).then(finish).catch(finish);
 }
 
-function restartWizard() {
+function changeClient() {
+  state.isClientSelected = false;
+  state.selectedClient = null;
   state.currentStep = 0;
-  state.answers = {
-    media: null, mediaOther: '',
-    ratio: null,
-    bannerTitle: '',
-    catchcopy: '',
-    dateMode: 'single', startDate: '', endDate: '', eventTime: '',
-    venue: '',
-    benefit: '',
-    designTaste: null,
-    logo: null,
-    usePhoto: null
-  };
+  state.answers = { ratio: null, taste: null, title: '', catchcopy: '', date: '', venue: '', benefit: '', logo: null };
   renderStep();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ─── History ─────────────────────────────────────────────
+function restartWizard() {
+  state.currentStep = 0;
+  state.answers = { ratio: null, taste: null, title: '', catchcopy: '', date: '', venue: '', benefit: '', logo: null };
+  renderStep();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── History ────────────────────────────────────────────────────
 function saveToHistory(prompt) {
   const history = getHistory();
   const a = state.answers;
-  const mediaLabel = a.media === '__other__' ? (a.mediaOther || 'その他') : (a.media || '—');
-  const entry = { id: Date.now(), prompt, media: mediaLabel, createdAt: new Date().toISOString() };
-  history.unshift(entry);
+  const clientPart = state.selectedClient ? `${state.selectedClient.name} · ` : '';
+  const badge = clientPart + ([a.ratio, a.taste].filter(Boolean).join(' / ') || '—');
+  history.unshift({ id: Date.now(), prompt, badge, createdAt: new Date().toISOString() });
   localStorage.setItem('housingPromptHistory', JSON.stringify(history.slice(0, 10)));
 }
 
 function getHistory() {
-  try { return JSON.parse(localStorage.getItem('housingPromptHistory') || '[]'); } catch { return []; }
+  try { return JSON.parse(localStorage.getItem('housingPromptHistory') || '[]'); }
+  catch { return []; }
 }
 
 function renderHistory() {
@@ -1361,7 +1127,7 @@ function renderHistory() {
   if (history.length === 0) {
     list.innerHTML = `
       <div class="history-empty">
-        <div class="history-empty-icon">📝</div>
+        <span class="material-icons">history</span>
         まだ生成履歴がありません
       </div>
     `;
@@ -1373,34 +1139,42 @@ function renderHistory() {
     const card = document.createElement('div');
     card.className = 'history-card';
     const dt = new Date(entry.createdAt);
-    const dateStr = `${dt.getFullYear()}/${String(dt.getMonth()+1).padStart(2,'0')}/${String(dt.getDate()).padStart(2,'0')} ${String(dt.getHours()).padStart(2,'0')}:${String(dt.getMinutes()).padStart(2,'0')}`;
+    const dateStr = `${dt.getFullYear()}/${pad(dt.getMonth()+1)}/${pad(dt.getDate())} ${pad(dt.getHours())}:${pad(dt.getMinutes())}`;
+
     card.innerHTML = `
       <div class="history-meta">
-        <span class="history-badge">${escHtml(entry.media)}</span>
+        <span class="history-badge">${escHtml(entry.badge)}</span>
         <span class="history-date">${dateStr}</span>
       </div>
       <div class="history-preview">${escHtml(entry.prompt)}</div>
       <div class="history-actions">
-        <button class="h-btn copy-h-btn" data-prompt="${escAttr(entry.prompt)}">📋 コピー</button>
-        <button class="h-btn del" onclick="deleteHistory(${entry.id})">🗑 削除</button>
+        <button class="h-btn copy-h-btn" data-prompt="${escAttr(entry.prompt)}">
+          <span class="material-icons">content_copy</span> コピー
+        </button>
+        <button class="h-btn del" onclick="deleteHistory(${entry.id})">
+          <span class="material-icons">delete</span> 削除
+        </button>
       </div>
     `;
-    card.querySelector('.copy-h-btn').onclick = function() {
-      const txt = this.dataset.prompt.replace(/\\n/g, '\n').replace(/\\'/g, "'").replace(/\\\\/g, '\\');
-      navigator.clipboard.writeText(txt).then(() => {
-        const orig = this.innerHTML;
-        this.innerHTML = '✅ コピー済み';
+
+    const copyBtn = card.querySelector('.copy-h-btn');
+    copyBtn.onclick = function() {
+      if (this.classList.contains('copied')) return;
+      const orig = this.innerHTML;
+      navigator.clipboard.writeText(this.dataset.prompt).then(() => {
+        this.innerHTML = '<span class="material-icons">check_circle</span> コピー済み';
         this.classList.add('copied');
         setTimeout(() => { this.innerHTML = orig; this.classList.remove('copied'); }, 2000);
       });
     };
+
     list.appendChild(card);
   });
 }
 
 function deleteHistory(id) {
-  const history = getHistory().filter(e => e.id !== id);
-  localStorage.setItem('housingPromptHistory', JSON.stringify(history));
+  localStorage.setItem('housingPromptHistory',
+    JSON.stringify(getHistory().filter(e => e.id !== id)));
   renderHistory();
 }
 
@@ -1410,7 +1184,16 @@ function clearAllHistory() {
   renderHistory();
 }
 
-// ─── Init ─────────────────────────────────────────────────
+// ─── Helpers ────────────────────────────────────────────────────
+function escHtml(s) {
+  return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function escAttr(s) {
+  return (s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+}
+function pad(n) { return String(n).padStart(2, '0'); }
+
+// ─── Init ───────────────────────────────────────────────────────
 renderStep();
 renderHistory();
 </script>
