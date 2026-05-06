@@ -613,6 +613,18 @@ const CLIENTS = [
   {
     id: 'nasu-kensetsu',
     name: '那須建設',
+    defaultTaste: 'ナチュラル・温かみ・和モダン・落ち着いた雰囲気',
+    colors: {
+      main:   { hex: '#3d3b32', name: 'ダークブラウン' },
+      accent: { hex: '#ebede9', name: 'スモーキーピスタチオ' },
+      base:   { hex: '#fffdf9', name: 'アイボリーホワイト' }
+    },
+    fonts: {
+      title: '明朝体',
+      body:  'ゴシック体',
+      latin: 'エレガントなサンセリフ体'
+    },
+    photoTone: '赤すぎず青すぎない中間色調・自然な温かみのある色味',
     ngRules: [
       '派手すぎる色・表現はNG',
       'カジュアルすぎるデザインはNG',
@@ -641,6 +653,13 @@ const state = {
 };
 
 const TOTAL_STEPS = 8;
+
+// ─── Active Steps（顧客ありの場合テイストをスキップ）──────────────
+function getActiveSteps() {
+  return state.selectedClient
+    ? steps.filter(s => s.id !== 'taste')
+    : steps;
+}
 
 // ─── Step Definitions ───────────────────────────────────────────
 const steps = [
@@ -735,18 +754,19 @@ function updateHeaderClient() {
 
 // ─── Rendering ──────────────────────────────────────────────────
 function renderProgress() {
-  const isResult = state.currentStep >= TOTAL_STEPS;
+  const total = getActiveSteps().length;
+  const isResult = state.currentStep >= total;
   const showProgress = state.isClientSelected && !isResult;
   document.getElementById('progressWrap').style.display = showProgress ? '' : 'none';
   if (!showProgress) return;
 
   const step = state.currentStep;
-  document.getElementById('progressFraction').innerHTML = `${step + 1}<span> / ${TOTAL_STEPS}</span>`;
-  document.getElementById('progressFill').style.width = ((step + 1) / TOTAL_STEPS * 100) + '%';
+  document.getElementById('progressFraction').innerHTML = `${step + 1}<span> / ${total}</span>`;
+  document.getElementById('progressFill').style.width = ((step + 1) / total * 100) + '%';
 
   const dotsEl = document.getElementById('stepDots');
   dotsEl.innerHTML = '';
-  for (let i = 0; i < TOTAL_STEPS; i++) {
+  for (let i = 0; i < total; i++) {
     const d = document.createElement('div');
     d.className = 'step-dot' + (i < step ? ' done' : i === step ? ' current' : '');
     dotsEl.appendChild(d);
@@ -764,13 +784,14 @@ function renderStep() {
     return;
   }
 
-  if (state.currentStep >= TOTAL_STEPS) {
+  const activeSteps = getActiveSteps();
+  if (state.currentStep >= activeSteps.length) {
     area.appendChild(buildResult());
     renderHistory();
     return;
   }
 
-  area.appendChild(buildStepCard(steps[state.currentStep]));
+  area.appendChild(buildStepCard(activeSteps[state.currentStep]));
 }
 
 // ─── Client Selection ───────────────────────────────────────────
@@ -850,7 +871,7 @@ function buildStepCard(s) {
   const hdr = document.createElement('div');
   hdr.className = 'card-header';
   hdr.innerHTML = `
-    <div class="step-badge">STEP ${state.currentStep + 1} / ${TOTAL_STEPS}</div>
+    <div class="step-badge">STEP ${state.currentStep + 1} / ${getActiveSteps().length}</div>
     <div class="card-title">${escHtml(s.title)}</div>
     ${s.subtitle ? `<div class="card-subtitle">${escHtml(s.subtitle)}</div>` : ''}
   `;
@@ -883,7 +904,7 @@ function buildStepCard(s) {
     footer.appendChild(backToClientBtn);
   }
 
-  const isLast = state.currentStep === TOTAL_STEPS - 1;
+  const isLast = state.currentStep === getActiveSteps().length - 1;
   const nextBtn = document.createElement('button');
   nextBtn.className = 'btn btn-primary';
   nextBtn.innerHTML = isLast
@@ -898,7 +919,7 @@ function buildStepCard(s) {
     skipBtn.textContent = 'スキップ';
     skipBtn.onclick = () => {
       state.currentStep++;
-      if (state.currentStep >= TOTAL_STEPS) saveToHistory(generatePrompt());
+      if (state.currentStep >= getActiveSteps().length) saveToHistory(generatePrompt());
       renderStep();
     };
     footer.appendChild(skipBtn);
@@ -985,7 +1006,7 @@ function buildDateInput() {
 // ─── Navigation ─────────────────────────────────────────────────
 function handleNext() {
   state.currentStep++;
-  if (state.currentStep >= TOTAL_STEPS) saveToHistory(generatePrompt());
+  if (state.currentStep >= getActiveSteps().length) saveToHistory(generatePrompt());
   renderStep();
 }
 
@@ -995,7 +1016,8 @@ function generatePrompt() {
   const lines = ['添付画像を使用して画像を生成してください。', ''];
 
   if (a.ratio)     lines.push(`アスペクト比：${a.ratio}`);
-  if (a.taste)     lines.push(`テイスト：${a.taste}`);
+  const taste = state.selectedClient ? state.selectedClient.defaultTaste : a.taste;
+  if (taste)       lines.push(`テイスト：${taste}`);
   if (a.title)     lines.push(`タイトル：${a.title}`);
   if (a.catchcopy) lines.push(`キャッチコピー：${a.catchcopy}`);
   if (a.date) {
@@ -1006,13 +1028,35 @@ function generatePrompt() {
   if (a.benefit) lines.push(`特典：${a.benefit}`);
   if (a.logo)    lines.push(`ロゴ：${a.logo}`);
 
-  // 顧客情報を末尾に追加
+  // 顧客ブランドデザイン指示を末尾に追加
   const c = state.selectedClient;
   if (c) {
     lines.push('');
-    lines.push(`参考HP：${c.referenceUrl} のデザインテイストを参考にして広告画像を作成してください。サイトの配色・フォントの雰囲気・全体のトーンを広告に反映すること。`);
+    lines.push('【ブランドデザイン指示】');
+    if (c.colors) {
+      lines.push(`カラー：メイン ${c.colors.main.hex}（${c.colors.main.name}）、`);
+      lines.push(`　　　　アクセント ${c.colors.accent.hex}（${c.colors.accent.name}）、`);
+      lines.push(`　　　　ベース ${c.colors.base.hex}（${c.colors.base.name}）を使用すること`);
+    }
+    if (c.fonts) {
+      lines.push(`フォント：タイトルは${c.fonts.title}、本文は${c.fonts.body}、`);
+      lines.push(`　　　　　欧文は${c.fonts.latin}を使用`);
+    }
+    if (c.defaultTaste) {
+      lines.push(`テイスト：${c.defaultTaste}`);
+    }
+    if (c.photoTone) {
+      lines.push(`写真トーン：${c.photoTone}`);
+    }
     if (c.ngRules && c.ngRules.length > 0) {
-      lines.push(`NGルール：${c.ngRules.join(' / ')}`);
+      lines.push(`NGルール：${c.ngRules[0]} /`);
+      for (let i = 1; i < c.ngRules.length; i++) {
+        const suffix = i < c.ngRules.length - 1 ? ' /' : '';
+        lines.push(`　　　　　${c.ngRules[i]}${suffix}`);
+      }
+    }
+    if (c.referenceUrl) {
+      lines.push(`参考HP：${c.referenceUrl}`);
     }
   }
 
