@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
   :root {
     --navy:        #1A2844;
@@ -54,42 +55,19 @@
   }
   .header-icon { color: #7BAFD4; font-size: 22px; flex-shrink: 0; }
   .header-text { flex: 1; min-width: 0; }
-  .header-title-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-  .header-title {
-    color: var(--white);
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.03em;
-    white-space: nowrap;
-  }
+  .header-title-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .header-title { color: var(--white); font-size: 14px; font-weight: 700; letter-spacing: 0.03em; white-space: nowrap; }
   .header-client {
     background: rgba(255,255,255,0.15);
     color: rgba(255,255,255,0.9);
-    font-size: 11px;
-    font-weight: 600;
-    padding: 2px 9px;
-    border-radius: 10px;
-    letter-spacing: 0.02em;
-    white-space: nowrap;
-    display: none;
+    font-size: 11px; font-weight: 600;
+    padding: 2px 9px; border-radius: 10px;
+    white-space: nowrap; display: none;
   }
-  .header-sub {
-    color: rgba(255,255,255,0.4);
-    font-size: 11px;
-    margin-top: 1px;
-  }
+  .header-sub { color: rgba(255,255,255,0.4); font-size: 11px; margin-top: 1px; }
 
   /* ── Layout ── */
-  .app-container {
-    max-width: 640px;
-    margin: 0 auto;
-    padding: 22px 16px 80px;
-  }
+  .app-container { max-width: 640px; margin: 0 auto; padding: 22px 16px 80px; }
 
   /* ── Progress ── */
   .progress-wrap {
@@ -100,47 +78,14 @@
     box-shadow: var(--shadow-sm);
     border: 1px solid var(--gray-200);
   }
-  .progress-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 10px;
-  }
-  .progress-step-label {
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--gray-400);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-  .progress-fraction {
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--navy);
-    line-height: 1;
-  }
+  .progress-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+  .progress-step-label { font-size: 10px; font-weight: 700; color: var(--gray-400); letter-spacing: 0.12em; text-transform: uppercase; }
+  .progress-fraction { font-size: 20px; font-weight: 700; color: var(--navy); line-height: 1; }
   .progress-fraction span { font-size: 13px; color: var(--gray-400); font-weight: 400; }
-  .progress-bar {
-    height: 3px;
-    background: var(--gray-100);
-    border-radius: 2px;
-    overflow: hidden;
-    margin-bottom: 10px;
-  }
-  .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--navy), var(--blue));
-    border-radius: 2px;
-    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  }
+  .progress-bar { height: 3px; background: var(--gray-100); border-radius: 2px; overflow: hidden; margin-bottom: 10px; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--navy), var(--blue)); border-radius: 2px; transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
   .step-dots { display: flex; gap: 5px; }
-  .step-dot {
-    height: 3px;
-    flex: 1;
-    border-radius: 2px;
-    background: var(--gray-200);
-    transition: background var(--transition);
-  }
+  .step-dot { height: 3px; flex: 1; border-radius: 2px; background: var(--gray-200); transition: background var(--transition); }
   .step-dot.done    { background: var(--navy); }
   .step-dot.current { background: var(--blue); }
 
@@ -153,48 +98,32 @@
     overflow: hidden;
     animation: slideIn 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  @keyframes slideIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
+  @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
   .card-header { background: var(--navy); padding: 20px 24px 16px; }
   .step-badge {
     display: inline-block;
     background: rgba(255,255,255,0.1);
     color: rgba(255,255,255,0.65);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    padding: 3px 10px;
-    border-radius: 20px;
-    margin-bottom: 8px;
-    text-transform: uppercase;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.12em; padding: 3px 10px;
+    border-radius: 20px; margin-bottom: 8px; text-transform: uppercase;
   }
   .card-title { color: var(--white); font-size: 17px; font-weight: 700; line-height: 1.3; }
   .card-subtitle { color: rgba(255,255,255,0.45); font-size: 12px; margin-top: 5px; }
   .card-body { padding: 20px 22px; }
 
   /* ── Mode Selection ── */
-  .mode-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
+  .mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .mode-btn {
     border: 1.5px solid var(--gray-200);
     background: var(--white);
     border-radius: var(--radius-sm);
     padding: 26px 14px 22px;
-    cursor: pointer;
-    text-align: center;
+    cursor: pointer; text-align: center;
     transition: all var(--transition);
     font-family: 'Noto Sans JP', sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
+    display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%;
   }
   .mode-btn:hover { border-color: var(--navy-muted); background: var(--blue-light); }
   .mode-icon { font-size: 36px; color: var(--navy-muted); display: block; }
@@ -202,98 +131,45 @@
   .mode-desc { font-size: 11px; color: var(--gray-400); display: block; line-height: 1.6; }
 
   /* ── Client Selection ── */
-  .client-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 10px;
-  }
+  .client-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
   .client-btn {
-    border: 1.5px solid var(--gray-200);
-    background: var(--white);
-    border-radius: var(--radius-sm);
-    padding: 16px 14px;
-    cursor: pointer;
-    text-align: left;
-    transition: all var(--transition);
-    font-family: 'Noto Sans JP', sans-serif;
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
+    border: 1.5px solid var(--gray-200); background: var(--white);
+    border-radius: var(--radius-sm); padding: 16px 14px;
+    cursor: pointer; text-align: left; transition: all var(--transition);
+    font-family: 'Noto Sans JP', sans-serif; display: flex; align-items: flex-start; gap: 10px;
   }
   .client-btn:hover { border-color: var(--navy-muted); background: var(--blue-light); }
-  .client-btn.selected {
-    border-color: var(--navy);
-    background: var(--navy);
-    color: var(--white);
-    box-shadow: 0 2px 10px rgba(26,40,68,0.2);
-  }
-  .client-btn .material-icons {
-    font-size: 20px;
-    color: var(--gray-400);
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
+  .client-btn.selected { border-color: var(--navy); background: var(--navy); color: var(--white); box-shadow: 0 2px 10px rgba(26,40,68,0.2); }
+  .client-btn .material-icons { font-size: 20px; color: var(--gray-400); flex-shrink: 0; margin-top: 1px; }
   .client-btn.selected .material-icons { color: rgba(255,255,255,0.65); }
   .client-btn-text { flex: 1; }
   .client-btn-name { font-weight: 700; font-size: 14px; display: block; color: var(--gray-800); }
   .client-btn.selected .client-btn-name { color: var(--white); }
   .client-btn-sub { font-size: 11px; color: var(--gray-400); display: block; margin-top: 2px; }
   .client-btn.selected .client-btn-sub { color: rgba(255,255,255,0.5); }
-
   .client-generic-btn {
-    width: 100%;
-    border: 1.5px dashed var(--gray-200);
-    background: var(--white);
-    border-radius: var(--radius-sm);
-    padding: 13px 16px;
-    cursor: pointer;
-    text-align: left;
-    transition: all var(--transition);
-    font-family: 'Noto Sans JP', sans-serif;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: var(--gray-600);
+    width: 100%; border: 1.5px dashed var(--gray-200); background: var(--white);
+    border-radius: var(--radius-sm); padding: 13px 16px; cursor: pointer; text-align: left;
+    transition: all var(--transition); font-family: 'Noto Sans JP', sans-serif;
+    display: flex; align-items: center; gap: 10px; color: var(--gray-600);
   }
   .client-generic-btn:hover { border-color: var(--gray-400); background: var(--gray-100); }
-  .client-generic-btn.selected {
-    border-style: solid;
-    border-color: var(--navy);
-    background: var(--navy);
-    color: var(--white);
-  }
+  .client-generic-btn.selected { border-style: solid; border-color: var(--navy); background: var(--navy); color: var(--white); }
   .client-generic-btn .material-icons { font-size: 18px; color: var(--gray-400); }
   .client-generic-btn.selected .material-icons { color: rgba(255,255,255,0.65); }
   .client-generic-label { font-weight: 600; font-size: 14px; }
 
   /* ── Option Buttons ── */
-  .options-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-  }
+  .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .options-grid.odd-last > .option-btn:last-child:nth-child(odd) { grid-column: 1 / -1; }
-
   .option-btn {
-    border: 1.5px solid var(--gray-200);
-    background: var(--white);
-    border-radius: var(--radius-sm);
-    padding: 13px 15px;
-    cursor: pointer;
-    text-align: left;
-    transition: all var(--transition);
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 14px;
-    color: var(--gray-800);
+    border: 1.5px solid var(--gray-200); background: var(--white);
+    border-radius: var(--radius-sm); padding: 13px 15px;
+    cursor: pointer; text-align: left; transition: all var(--transition);
+    font-family: 'Noto Sans JP', sans-serif; font-size: 14px; color: var(--gray-800);
   }
   .option-btn:hover { border-color: var(--navy-muted); background: var(--blue-light); }
-  .option-btn.selected {
-    border-color: var(--navy);
-    background: var(--navy);
-    color: var(--white);
-    box-shadow: 0 2px 10px rgba(26,40,68,0.2);
-  }
+  .option-btn.selected { border-color: var(--navy); background: var(--navy); color: var(--white); box-shadow: 0 2px 10px rgba(26,40,68,0.2); }
   .opt-main { font-weight: 700; font-size: 15px; display: block; margin-bottom: 2px; }
   .opt-sub { font-size: 11px; color: var(--gray-600); font-weight: 400; display: block; }
   .option-btn.selected .opt-sub { color: rgba(255,255,255,0.55); }
@@ -301,21 +177,12 @@
   /* ── Yes/No ── */
   .yesno-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .yesno-btn {
-    border: 2px solid var(--gray-200);
-    background: var(--white);
-    border-radius: var(--radius-sm);
-    padding: 22px 16px;
-    cursor: pointer;
-    text-align: center;
-    transition: all var(--transition);
-    font-family: 'Noto Sans JP', sans-serif;
+    border: 2px solid var(--gray-200); background: var(--white);
+    border-radius: var(--radius-sm); padding: 22px 16px;
+    cursor: pointer; text-align: center; transition: all var(--transition); font-family: 'Noto Sans JP', sans-serif;
   }
   .yesno-btn:hover { border-color: var(--navy-muted); background: var(--blue-light); }
-  .yesno-btn.selected {
-    border-color: var(--navy);
-    background: var(--navy);
-    box-shadow: 0 3px 12px rgba(26,40,68,0.22);
-  }
+  .yesno-btn.selected { border-color: var(--navy); background: var(--navy); box-shadow: 0 3px 12px rgba(26,40,68,0.22); }
   .yesno-icon { display: block; font-size: 26px; color: var(--gray-400); margin-bottom: 8px; }
   .yesno-btn.selected .yesno-icon { color: rgba(255,255,255,0.65); }
   .yesno-label { font-size: 16px; font-weight: 700; display: block; color: var(--gray-800); }
@@ -323,162 +190,158 @@
   .yesno-sub { font-size: 11px; color: var(--gray-400); margin-top: 3px; display: block; }
   .yesno-btn.selected .yesno-sub { color: rgba(255,255,255,0.5); }
 
-  /* ── Text / Date / Textarea Input ── */
+  /* ── Text / Date Input ── */
   .input-group { margin-bottom: 0; }
   .text-input, .date-input {
-    width: 100%;
-    border: 1.5px solid var(--gray-200);
-    border-radius: var(--radius-sm);
-    padding: 12px 14px;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 14px;
-    color: var(--gray-800);
-    background: var(--white);
-    outline: none;
+    width: 100%; border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius-sm); padding: 12px 14px;
+    font-family: 'Noto Sans JP', sans-serif; font-size: 14px;
+    color: var(--gray-800); background: var(--white); outline: none;
     transition: border-color var(--transition), box-shadow var(--transition);
   }
-  .text-input:focus, .date-input:focus {
-    border-color: var(--navy);
-    box-shadow: 0 0 0 3px rgba(26,40,68,0.07);
-  }
+  .text-input:focus, .date-input:focus { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(26,40,68,0.07); }
   .text-input::placeholder { color: var(--gray-400); font-weight: 300; }
-  .textarea-input {
-    resize: vertical;
-    min-height: 130px;
-    line-height: 1.8;
-  }
+  .textarea-input { resize: vertical; min-height: 100px; line-height: 1.8; }
   .input-hint { font-size: 12px; color: var(--gray-400); margin-top: 7px; line-height: 1.5; }
+
+  /* ── Upload Step ── */
+  .upload-wrap { display: flex; flex-direction: column; gap: 16px; }
+  .upload-section {
+    background: var(--bg);
+    border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+  }
+  .upload-section-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+  .upload-section-icon { font-size: 18px; color: var(--navy-muted); }
+  .upload-section-title { font-size: 13px; font-weight: 700; color: var(--gray-800); }
+  .upload-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--white); border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius-sm); padding: 8px 14px;
+    font-family: 'Noto Sans JP', sans-serif; font-size: 13px; font-weight: 600;
+    color: var(--navy); cursor: pointer; transition: all var(--transition);
+  }
+  .upload-btn:hover { border-color: var(--navy); background: var(--blue-light); }
+  .upload-btn .material-icons { font-size: 17px; }
+
+  /* PDF list */
+  .pdf-list { margin-top: 10px; display: flex; flex-direction: column; gap: 7px; }
+  .pdf-item {
+    background: var(--white); border: 1px solid var(--gray-200);
+    border-radius: 6px; padding: 9px 12px;
+    display: flex; align-items: flex-start; gap: 8px; flex-wrap: wrap;
+  }
+  .pdf-item-icon { font-size: 17px; flex-shrink: 0; margin-top: 1px; }
+  .pdf-item-icon.success { color: var(--success); }
+  .pdf-item-icon.error   { color: #C0392B; }
+  .pdf-item-name { font-size: 12px; font-weight: 600; color: var(--gray-800); flex: 1; line-height: 1.5; }
+  .pdf-error { font-size: 11px; color: #C0392B; width: 100%; padding-left: 25px; margin-top: 2px; }
+  .pdf-del-btn { background: none; border: none; cursor: pointer; color: var(--gray-400); padding: 0; display: flex; align-items: center; flex-shrink: 0; margin-top: 1px; }
+  .pdf-del-btn:hover { color: #C0392B; }
+  .pdf-del-btn .material-icons { font-size: 16px; }
+
+  /* Spinner */
+  .pdf-spinner {
+    width: 16px; height: 16px;
+    border: 2px solid var(--gray-200); border-top-color: var(--blue);
+    border-radius: 50%; flex-shrink: 0; margin-top: 1px;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Image grid */
+  .img-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .img-thumb { position: relative; width: 72px; height: 72px; border-radius: 6px; overflow: hidden; border: 1.5px solid var(--gray-200); flex-shrink: 0; }
+  .img-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .img-del-btn {
+    position: absolute; top: 3px; right: 3px;
+    background: rgba(0,0,0,0.55); border: none; border-radius: 50%;
+    width: 20px; height: 20px; cursor: pointer; color: white;
+    display: flex; align-items: center; justify-content: center; padding: 0;
+  }
+  .img-del-btn .material-icons { font-size: 13px; }
 
   /* ── Navigation ── */
   .card-footer { padding: 0 22px 22px; display: flex; gap: 8px; align-items: center; }
   .btn {
-    border: none;
-    border-radius: var(--radius-sm);
-    padding: 11px 18px;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all var(--transition);
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    white-space: nowrap;
+    border: none; border-radius: var(--radius-sm); padding: 11px 18px;
+    font-family: 'Noto Sans JP', sans-serif; font-size: 14px; font-weight: 700;
+    cursor: pointer; transition: all var(--transition);
+    display: flex; align-items: center; gap: 5px; white-space: nowrap;
   }
   .btn .material-icons { font-size: 18px; }
   .btn-primary { background: var(--navy); color: var(--white); flex: 1; justify-content: center; }
   .btn-primary:hover { background: var(--navy-light); box-shadow: 0 3px 12px rgba(26,40,68,0.25); }
   .btn-secondary {
-    background: var(--gray-100);
-    color: var(--gray-600);
-    width: 44px; height: 44px;
-    padding: 0;
-    justify-content: center;
-    flex-shrink: 0;
+    background: var(--gray-100); color: var(--gray-600);
+    width: 44px; height: 44px; padding: 0; justify-content: center; flex-shrink: 0;
   }
   .btn-secondary:hover { background: var(--gray-200); color: var(--gray-800); }
   .btn-secondary .material-icons { font-size: 20px; }
   .btn-skip {
-    background: transparent;
-    color: var(--gray-400);
-    border: 1.5px solid var(--gray-200);
-    padding: 10px 13px;
-    font-weight: 500;
-    font-size: 12px;
-    flex-shrink: 0;
+    background: transparent; color: var(--gray-400);
+    border: 1.5px solid var(--gray-200); padding: 10px 13px;
+    font-weight: 500; font-size: 12px; flex-shrink: 0;
   }
   .btn-skip:hover { border-color: var(--gray-400); color: var(--gray-600); }
 
   /* ── Result ── */
   .result-card {
-    background: var(--white);
-    border-radius: var(--radius);
-    border: 1px solid var(--gray-200);
-    box-shadow: var(--shadow-lg);
-    overflow: hidden;
-    animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: var(--white); border-radius: var(--radius);
+    border: 1px solid var(--gray-200); box-shadow: var(--shadow-lg);
+    overflow: hidden; animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .result-header { background: var(--navy); padding: 20px 24px; }
-  .result-header-label {
-    color: rgba(255,255,255,0.45);
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    font-weight: 700;
-    margin-bottom: 6px;
-  }
-  .result-header-title {
-    color: var(--white);
-    font-size: 17px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
+  .result-header-label { color: rgba(255,255,255,0.45); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; margin-bottom: 6px; }
+  .result-header-title { color: var(--white); font-size: 17px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
   .result-header-title .material-icons { color: #7BAFD4; font-size: 20px; }
   .result-body { padding: 20px 22px; }
   .prompt-box {
-    background: var(--bg);
-    border: 1.5px solid var(--gray-200);
-    border-radius: var(--radius-sm);
-    padding: 16px;
-    font-size: 14px;
-    line-height: 1.9;
-    color: var(--gray-800);
-    white-space: pre-wrap;
-    word-break: break-all;
-    margin-bottom: 14px;
-    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--bg); border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius-sm); padding: 16px;
+    font-size: 14px; line-height: 1.9; color: var(--gray-800);
+    white-space: pre-wrap; word-break: break-all;
+    margin-bottom: 14px; font-family: 'Noto Sans JP', sans-serif;
   }
   .action-btn {
-    width: 100%;
-    border: none;
-    border-radius: var(--radius-sm);
-    padding: 13px;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all var(--transition);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-    margin-bottom: 10px;
+    width: 100%; border: none; border-radius: var(--radius-sm); padding: 13px;
+    font-family: 'Noto Sans JP', sans-serif; font-size: 14px; font-weight: 700;
+    cursor: pointer; transition: all var(--transition);
+    display: flex; align-items: center; justify-content: center; gap: 7px; margin-bottom: 10px;
   }
   .action-btn .material-icons { font-size: 18px; }
   .chatgpt-btn { background: #0A7F5B; color: var(--white); }
   .chatgpt-btn:hover { background: #08694A; box-shadow: 0 3px 14px rgba(10,127,91,0.3); }
   .chatgpt-note {
-    font-size: 12px;
-    color: #2D6E52;
-    line-height: 1.7;
-    padding: 10px 14px;
-    background: #EAF7F2;
-    border: 1px solid rgba(10,127,91,0.18);
-    border-radius: var(--radius-sm);
-    margin-bottom: 10px;
-    display: none;
-    text-align: center;
+    font-size: 12px; color: #2D6E52; line-height: 1.7;
+    padding: 10px 14px; background: #EAF7F2;
+    border: 1px solid rgba(10,127,91,0.18); border-radius: var(--radius-sm);
+    margin-bottom: 10px; display: none; text-align: center;
   }
   .copy-btn { background: var(--navy); color: var(--white); }
   .copy-btn:hover { background: var(--navy-light); box-shadow: 0 3px 12px rgba(26,40,68,0.25); }
   .copy-btn.copied { background: var(--success); }
+
+  /* image attach note */
+  .img-attach-note {
+    border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm);
+    padding: 14px 16px; margin-bottom: 14px;
+  }
+  .img-attach-label {
+    font-size: 12px; font-weight: 700; color: var(--gray-600);
+    display: flex; align-items: center; gap: 6px; margin-bottom: 10px;
+  }
+  .img-attach-label .material-icons { font-size: 16px; color: var(--navy-muted); }
+  .img-attach-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+  .img-attach-thumb { width: 60px; height: 60px; border-radius: 5px; object-fit: cover; border: 1px solid var(--gray-200); }
+
   .result-actions { padding: 0 22px 22px; display: flex; gap: 8px; }
   .btn-restart, .btn-change-client {
-    flex: 1;
-    border: none;
-    border-radius: var(--radius-sm);
-    padding: 11px;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all var(--transition);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
+    flex: 1; border: none; border-radius: var(--radius-sm); padding: 11px;
+    font-family: 'Noto Sans JP', sans-serif; font-size: 13px; font-weight: 700;
+    cursor: pointer; transition: all var(--transition);
+    display: flex; align-items: center; justify-content: center; gap: 5px;
   }
   .btn-restart { background: var(--gray-100); color: var(--gray-600); }
   .btn-restart:hover { background: var(--gray-200); color: var(--gray-800); }
@@ -491,91 +354,19 @@
   .history-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
   .history-title { font-size: 13px; font-weight: 700; color: var(--navy); display: flex; align-items: center; gap: 6px; }
   .history-title .material-icons { font-size: 17px; color: var(--gray-400); }
-  .history-count {
-    background: var(--navy);
-    color: white;
-    font-size: 10px;
-    font-weight: 700;
-    width: 18px; height: 18px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .clear-all-btn {
-    font-size: 12px;
-    color: var(--gray-400);
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-family: 'Noto Sans JP', sans-serif;
-    transition: color var(--transition);
-  }
+  .history-count { background: var(--navy); color: white; font-size: 10px; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .clear-all-btn { font-size: 12px; color: var(--gray-400); background: none; border: none; cursor: pointer; padding: 4px 8px; border-radius: 4px; font-family: 'Noto Sans JP', sans-serif; transition: color var(--transition); }
   .clear-all-btn:hover { color: #C0392B; }
-  .history-empty {
-    background: var(--white);
-    border: 1.5px dashed var(--gray-200);
-    border-radius: var(--radius);
-    padding: 28px;
-    text-align: center;
-    color: var(--gray-400);
-    font-size: 13px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
+  .history-empty { background: var(--white); border: 1.5px dashed var(--gray-200); border-radius: var(--radius); padding: 28px; text-align: center; color: var(--gray-400); font-size: 13px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
   .history-empty .material-icons { font-size: 30px; color: var(--gray-200); }
-  .history-list { display: flex; flex-direction: column; gap: 8px; }
-  .history-card {
-    background: var(--white);
-    border: 1px solid var(--gray-200);
-    border-radius: var(--radius-sm);
-    padding: 13px 15px;
-    box-shadow: var(--shadow-sm);
-    transition: box-shadow var(--transition);
-  }
+  .history-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-sm); padding: 13px 15px; box-shadow: var(--shadow-sm); transition: box-shadow var(--transition); margin-bottom: 8px; }
   .history-card:hover { box-shadow: var(--shadow-md); }
   .history-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 7px; gap: 8px; }
-  .history-badge {
-    background: var(--navy);
-    color: white;
-    font-size: 11px;
-    font-weight: 700;
-    padding: 2px 10px;
-    border-radius: 20px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 220px;
-  }
+  .history-badge { background: var(--navy); color: white; font-size: 11px; font-weight: 700; padding: 2px 10px; border-radius: 20px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 220px; }
   .history-date { font-size: 11px; color: var(--gray-400); flex-shrink: 0; }
-  .history-preview {
-    font-size: 12px;
-    color: var(--gray-600);
-    line-height: 1.6;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    margin-bottom: 10px;
-  }
+  .history-preview { font-size: 12px; color: var(--gray-600); line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 10px; }
   .history-actions { display: flex; gap: 6px; }
-  .h-btn {
-    border: 1.5px solid var(--gray-200);
-    background: var(--white);
-    border-radius: 6px;
-    padding: 5px 10px;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all var(--transition);
-    font-family: 'Noto Sans JP', sans-serif;
-    color: var(--gray-600);
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
+  .h-btn { border: 1.5px solid var(--gray-200); background: var(--white); border-radius: 6px; padding: 5px 10px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all var(--transition); font-family: 'Noto Sans JP', sans-serif; color: var(--gray-600); display: flex; align-items: center; gap: 4px; }
   .h-btn .material-icons { font-size: 14px; }
   .h-btn:hover { border-color: var(--navy); color: var(--navy); }
   .h-btn.copied { border-color: var(--success); color: var(--success); }
@@ -615,10 +406,10 @@
   <div class="progress-wrap" id="progressWrap">
     <div class="progress-top">
       <div class="progress-step-label">STEP</div>
-      <div class="progress-fraction" id="progressFraction">1<span> / 8</span></div>
+      <div class="progress-fraction" id="progressFraction">1<span> / 2</span></div>
     </div>
     <div class="progress-bar">
-      <div class="progress-fill" id="progressFill" style="width:12.5%"></div>
+      <div class="progress-fill" id="progressFill" style="width:50%"></div>
     </div>
     <div class="step-dots" id="stepDots"></div>
   </div>
@@ -639,7 +430,13 @@
 </div>
 
 <script>
-// ─── クライアントデータ ──────────────────────────────────────────
+// ─── PDF.js 初期化 ────────────────────────────────────────────────────
+if (window.pdfjsLib) {
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+}
+
+// ─── クライアントデータ ───────────────────────────────────────────────
 // clients/ フォルダに新しい .md を追加した場合はここにも追記してください
 const CLIENTS = [
   {
@@ -671,18 +468,13 @@ const CLIENTS = [
       latin: '丸みのあるサンセリフ体（Avenir系）'
     },
     photoTone: '明るく爽やかな色調・グリーンや自然素材を感じる色味・開放的で活気のある印象',
-    ngRules: [
-      '高級感・高級路線のデザインはNG',
-      '暗い・重い・閉塞感のある表現はNG',
-      '過度に上品すぎる和風テイストはNG',
-      '華美すぎる装飾はNG'
-    ],
+    ngRules: ['高級感・高級路線のデザインはNG', '暗い・重い・閉塞感のある表現はNG', '過度に上品すぎる和風テイストはNG', '華美すぎる装飾はNG'],
     referenceUrl: 'https://www.arsgreen.jp/'
   }
   // 新しいクライアントはここに追記
 ];
 
-// ─── State ──────────────────────────────────────────────────────────
+// ─── State ────────────────────────────────────────────────────────────
 const state = {
   mode: null,             // null | 'ad' | 'flyer'
   isClientSelected: false,
@@ -693,34 +485,26 @@ const state = {
     date: '', venue: '', benefit: '', logo: null
   },
   flyerAnswers: {
-    size: null, memo: '', refImage: null, extra: ''
+    size: null,
+    pdfTexts: [],   // [{ name, text, error, loading }]
+    images: [],     // [{ name, dataUrl }]
+    memo: ''
   }
 };
 
-// ─── Answer Store Helper ─────────────────────────────────────────────
-function getAnswers() {
-  return state.mode === 'flyer' ? state.flyerAnswers : state.answers;
-}
+// ─── Helpers ──────────────────────────────────────────────────────────
+function getAnswers() { return state.mode === 'flyer' ? state.flyerAnswers : state.answers; }
 
-// ─── Active Steps ─────────────────────────────────────────────────────
 function getActiveSteps() {
   return state.selectedClient ? steps.filter(s => s.id !== 'taste') : steps;
 }
-
-function getActiveFlyerSteps() {
-  return flyerSteps;
-}
-
-function getCurrentActiveSteps() {
-  return state.mode === 'flyer' ? getActiveFlyerSteps() : getActiveSteps();
-}
+function getActiveFlyerSteps() { return flyerSteps; }
+function getCurrentActiveSteps() { return state.mode === 'flyer' ? getActiveFlyerSteps() : getActiveSteps(); }
 
 // ─── Ad Step Definitions ──────────────────────────────────────────────
 const steps = [
   {
-    id: 'ratio',
-    title: 'アスペクト比を選んでください',
-    subtitle: '広告の縦横比を選択してください',
+    id: 'ratio', title: 'アスペクト比を選んでください', subtitle: '広告の縦横比を選択してください',
     type: 'single', required: true,
     options: [
       { value: '1:1',  label: '1:1',  sub: '正方形' },
@@ -731,9 +515,7 @@ const steps = [
     ]
   },
   {
-    id: 'taste',
-    title: 'テイストを選んでください',
-    subtitle: '広告ビジュアルの雰囲気を選択してください',
+    id: 'taste', title: 'テイストを選んでください', subtitle: '広告ビジュアルの雰囲気を選択してください',
     type: 'single', required: true,
     options: [
       { value: '高級感・洗練',         label: '高級感・洗練',         sub: '上質でリッチな印象' },
@@ -743,47 +525,13 @@ const steps = [
       { value: 'クール・シンプル',      label: 'クール・シンプル',      sub: '無駄を省いたクリアな表現' }
     ]
   },
+  { id: 'title',     title: 'タイトルを入力してください',     subtitle: 'バナーのメインタイトル',       type: 'text', required: true,  placeholder: '例：OPEN HOUSE',            hint: '例：OPEN HOUSE・完成見学会・モデルハウス公開中' },
+  { id: 'catchcopy', title: 'キャッチコピーを入力してください', subtitle: 'サブコピー（任意）',           type: 'text', required: false, placeholder: '例：家族の夢を、カタチに。', hint: '短く端的に。10〜20文字程度が映えます' },
+  { id: 'date',      title: '日付を入力してください',         subtitle: '開催日（任意）',               type: 'date', required: false },
+  { id: 'venue',     title: '開催場所を入力してください',     subtitle: '会場名・住所など（任意）',     type: 'text', required: false, placeholder: '例：○○市△△町1-2-3 モデルハウス会場' },
+  { id: 'benefit',   title: '来場特典を入力してください',     subtitle: 'ご来場者への特典内容（任意）', type: 'text', required: false, placeholder: '例：クオカード500円分プレゼント', hint: '例：クオカード500円分・お子様へのお菓子プレゼント' },
   {
-    id: 'title',
-    title: 'タイトルを入力してください',
-    subtitle: 'バナーのメインタイトル',
-    type: 'text', required: true,
-    placeholder: '例：OPEN HOUSE',
-    hint: '例：OPEN HOUSE・完成見学会・モデルハウス公開中'
-  },
-  {
-    id: 'catchcopy',
-    title: 'キャッチコピーを入力してください',
-    subtitle: 'サブコピー（任意）',
-    type: 'text', required: false,
-    placeholder: '例：家族の夢を、カタチに。',
-    hint: '短く端的に。10〜20文字程度が映えます'
-  },
-  {
-    id: 'date',
-    title: '日付を入力してください',
-    subtitle: '開催日（任意）',
-    type: 'date', required: false
-  },
-  {
-    id: 'venue',
-    title: '開催場所を入力してください',
-    subtitle: '会場名・住所など（任意）',
-    type: 'text', required: false,
-    placeholder: '例：○○市△△町1-2-3 モデルハウス会場'
-  },
-  {
-    id: 'benefit',
-    title: '来場特典を入力してください',
-    subtitle: 'ご来場者への特典内容（任意）',
-    type: 'text', required: false,
-    placeholder: '例：クオカード500円分プレゼント',
-    hint: '例：クオカード500円分・お子様へのお菓子プレゼント'
-  },
-  {
-    id: 'logo',
-    title: 'ロゴの使用',
-    subtitle: 'バナーにロゴスペースを確保しますか？',
+    id: 'logo', title: 'ロゴの使用', subtitle: 'バナーにロゴスペースを確保しますか？',
     type: 'yesno', required: true,
     options: [
       { value: 'あり', label: 'あり', sub: '右下にロゴ枠を確保', icon: 'verified' },
@@ -795,9 +543,7 @@ const steps = [
 // ─── Flyer Step Definitions ───────────────────────────────────────────
 const flyerSteps = [
   {
-    id: 'size',
-    title: 'チラシサイズを選んでください',
-    subtitle: '',
+    id: 'size', title: 'チラシサイズを選んでください', subtitle: '',
     type: 'single', required: true,
     options: [
       { value: 'A4縦', label: 'A4縦', sub: '210×297mm・縦型' },
@@ -805,48 +551,27 @@ const flyerSteps = [
     ]
   },
   {
-    id: 'memo',
-    title: 'MTGメモを入力してください',
-    subtitle: 'チラシの内容・要件を記入してください',
-    type: 'textarea', required: true,
-    placeholder: 'MTGメモやPDFの内容をここに貼り付けてください',
-    hint: 'イベント詳細・訴求ポイント・掲載内容などを入力してください'
-  },
-  {
-    id: 'refImage',
-    title: '参考画像の有無',
-    subtitle: 'デザインの参考画像はありますか？',
-    type: 'yesno', required: true,
-    options: [
-      { value: 'あり', label: 'あり', sub: 'ChatGPTに画像も添付してください', icon: 'image' },
-      { value: 'なし', label: 'なし', sub: '参考画像なし', icon: 'hide_image' }
-    ]
-  },
-  {
-    id: 'extra',
-    title: '追加情報（任意）',
-    subtitle: 'その他の要望・補足事項',
-    type: 'textarea', required: false,
-    placeholder: '例：ターゲットは子育て世帯、温かみのある雰囲気で',
-    hint: 'ターゲット・雰囲気・特記事項など自由に記載してください'
+    id: 'upload',
+    title: '資料をアップロードしてください',
+    subtitle: 'PDF・参考画像・補足メモを追加してください',
+    type: 'upload',
+    required: false
   }
 ];
 
-// ─── Header ──────────────────────────────────────────────────────────
+// ─── Header ───────────────────────────────────────────────────────────
 function updateHeaderClient() {
   const el = document.getElementById('headerClient');
   if (state.isClientSelected && state.selectedClient) {
-    el.textContent = state.selectedClient.name;
-    el.style.display = '';
-  } else if (state.isClientSelected && !state.selectedClient) {
-    el.textContent = '汎用';
-    el.style.display = '';
+    el.textContent = state.selectedClient.name; el.style.display = '';
+  } else if (state.isClientSelected) {
+    el.textContent = '汎用'; el.style.display = '';
   } else {
     el.style.display = 'none';
   }
 }
 
-// ─── Rendering ───────────────────────────────────────────────────────
+// ─── Rendering ────────────────────────────────────────────────────────
 function renderProgress() {
   const activeSteps = getCurrentActiveSteps();
   const total = activeSteps.length;
@@ -873,14 +598,11 @@ function renderStep() {
   const area = document.getElementById('wizardArea');
   area.innerHTML = '';
 
-  // モード未選択
   if (!state.mode) {
     document.getElementById('progressWrap').style.display = 'none';
     area.appendChild(buildModeSelection());
     return;
   }
-
-  // 顧客未選択
   if (!state.isClientSelected) {
     document.getElementById('progressWrap').style.display = 'none';
     area.appendChild(buildClientSelection());
@@ -894,7 +616,6 @@ function renderStep() {
     renderHistory();
     return;
   }
-
   area.appendChild(buildStepCard(activeSteps[state.currentStep]));
 }
 
@@ -937,7 +658,6 @@ function selectMode(mode) {
 function buildClientSelection() {
   const card = document.createElement('div');
   card.className = 'wizard-card';
-
   card.innerHTML = `
     <div class="card-header">
       <div class="step-badge">STEP 0</div>
@@ -993,19 +713,8 @@ function buildClientSelection() {
   return card;
 }
 
-function goBackToModeSelection() {
-  state.mode = null;
-  state.isClientSelected = false;
-  renderStep();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function confirmClientSelection() {
-  state.isClientSelected = true;
-  state.currentStep = 0;
-  renderStep();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+function goBackToModeSelection() { state.mode = null; state.isClientSelected = false; renderStep(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+function confirmClientSelection() { state.isClientSelected = true; state.currentStep = 0; renderStep(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
 // ─── Wizard Card ──────────────────────────────────────────────────────
 function buildStepCard(s) {
@@ -1013,7 +722,6 @@ function buildStepCard(s) {
   card.className = 'wizard-card';
 
   const activeSteps = getCurrentActiveSteps();
-
   const hdr = document.createElement('div');
   hdr.className = 'card-header';
   hdr.innerHTML = `
@@ -1030,6 +738,7 @@ function buildStepCard(s) {
   else if (s.type === 'text')     body.appendChild(buildTextInput(s));
   else if (s.type === 'textarea') body.appendChild(buildTextareaInput(s));
   else if (s.type === 'date')     body.appendChild(buildDateInput());
+  else if (s.type === 'upload')   body.appendChild(buildUploadInput(s));
   card.appendChild(body);
 
   const footer = document.createElement('div');
@@ -1060,9 +769,8 @@ function buildStepCard(s) {
     skipBtn.textContent = 'スキップ';
     skipBtn.onclick = () => {
       state.currentStep++;
-      if (state.currentStep >= getCurrentActiveSteps().length) {
+      if (state.currentStep >= getCurrentActiveSteps().length)
         saveToHistory(state.mode === 'flyer' ? generateFlyerPrompt() : generateAdPrompt());
-      }
       renderStep();
     };
     footer.appendChild(skipBtn);
@@ -1078,23 +786,14 @@ function buildSingleOptions(s) {
   const wrap = document.createElement('div');
   const grid = document.createElement('div');
   grid.className = 'options-grid' + (s.options.length % 2 !== 0 ? ' odd-last' : '');
-
   s.options.forEach(opt => {
     const btn = document.createElement('button');
     btn.className = 'option-btn';
     if (answers[s.id] === opt.value) btn.classList.add('selected');
-    btn.innerHTML = `
-      <span class="opt-main">${escHtml(opt.label)}</span>
-      ${opt.sub ? `<span class="opt-sub">${escHtml(opt.sub)}</span>` : ''}
-    `;
-    btn.onclick = () => {
-      answers[s.id] = opt.value;
-      grid.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-    };
+    btn.innerHTML = `<span class="opt-main">${escHtml(opt.label)}</span>${opt.sub ? `<span class="opt-sub">${escHtml(opt.sub)}</span>` : ''}`;
+    btn.onclick = () => { answers[s.id] = opt.value; grid.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); };
     grid.appendChild(btn);
   });
-
   wrap.appendChild(grid);
   return wrap;
 }
@@ -1103,24 +802,14 @@ function buildYesNo(s) {
   const answers = getAnswers();
   const grid = document.createElement('div');
   grid.className = 'yesno-grid';
-
   s.options.forEach(opt => {
     const btn = document.createElement('button');
     btn.className = 'yesno-btn';
     if (answers[s.id] === opt.value) btn.classList.add('selected');
-    btn.innerHTML = `
-      <span class="material-icons yesno-icon">${opt.icon}</span>
-      <span class="yesno-label">${escHtml(opt.label)}</span>
-      <span class="yesno-sub">${escHtml(opt.sub)}</span>
-    `;
-    btn.onclick = () => {
-      answers[s.id] = opt.value;
-      grid.querySelectorAll('.yesno-btn').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-    };
+    btn.innerHTML = `<span class="material-icons yesno-icon">${opt.icon}</span><span class="yesno-label">${escHtml(opt.label)}</span><span class="yesno-sub">${escHtml(opt.sub)}</span>`;
+    btn.onclick = () => { answers[s.id] = opt.value; grid.querySelectorAll('.yesno-btn').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); };
     grid.appendChild(btn);
   });
-
   return grid;
 }
 
@@ -1129,9 +818,7 @@ function buildTextInput(s) {
   const wrap = document.createElement('div');
   wrap.className = 'input-group';
   wrap.innerHTML = `
-    <input class="text-input" type="text"
-      placeholder="${escAttr(s.placeholder || '')}"
-      value="${escAttr(answers[s.id] || '')}">
+    <input class="text-input" type="text" placeholder="${escAttr(s.placeholder || '')}" value="${escAttr(answers[s.id] || '')}">
     ${s.hint ? `<div class="input-hint">${escHtml(s.hint)}</div>` : ''}
   `;
   wrap.querySelector('input').addEventListener('input', e => { answers[s.id] = e.target.value; });
@@ -1143,9 +830,7 @@ function buildTextareaInput(s) {
   const wrap = document.createElement('div');
   wrap.className = 'input-group';
   wrap.innerHTML = `
-    <textarea class="text-input textarea-input"
-      placeholder="${escAttr(s.placeholder || '')}"
-      rows="7">${escHtml(answers[s.id] || '')}</textarea>
+    <textarea class="text-input textarea-input" placeholder="${escAttr(s.placeholder || '')}" rows="7">${escHtml(answers[s.id] || '')}</textarea>
     ${s.hint ? `<div class="input-hint">${escHtml(s.hint)}</div>` : ''}
   `;
   wrap.querySelector('textarea').addEventListener('input', e => { answers[s.id] = e.target.value; });
@@ -1156,20 +841,167 @@ function buildDateInput() {
   const answers = getAnswers();
   const wrap = document.createElement('div');
   wrap.className = 'input-group';
-  wrap.innerHTML = `
-    <input class="date-input" type="date" value="${escAttr(answers.date || '')}">
-    <div class="input-hint">開催日を選択してください</div>
-  `;
+  wrap.innerHTML = `<input class="date-input" type="date" value="${escAttr(answers.date || '')}"><div class="input-hint">開催日を選択してください</div>`;
   wrap.querySelector('input').addEventListener('change', e => { answers.date = e.target.value; });
   return wrap;
+}
+
+// ─── Upload Step Builder ──────────────────────────────────────────────
+function buildUploadInput() {
+  const wrap = document.createElement('div');
+  wrap.className = 'upload-wrap';
+
+  // ── Section 1: PDF ──
+  const pdfSec = document.createElement('div');
+  pdfSec.className = 'upload-section';
+  pdfSec.innerHTML = `
+    <div class="upload-section-header">
+      <span class="material-icons upload-section-icon">picture_as_pdf</span>
+      <span class="upload-section-title">PDFをアップロード</span>
+    </div>
+    <label class="upload-btn">
+      <span class="material-icons">upload_file</span>
+      PDFを追加
+      <input type="file" accept=".pdf" multiple style="display:none" id="pdfFileInput">
+    </label>
+    <div class="pdf-list" id="pdfList"></div>
+  `;
+  wrap.appendChild(pdfSec);
+  renderPdfList(pdfSec.querySelector('#pdfList'));
+
+  pdfSec.querySelector('#pdfFileInput').addEventListener('change', async (e) => {
+    const files = Array.from(e.target.files);
+    for (const file of files) {
+      const entry = { name: file.name, text: null, error: null, loading: true };
+      state.flyerAnswers.pdfTexts.push(entry);
+      renderPdfList(pdfSec.querySelector('#pdfList'));
+      try {
+        if (!window.pdfjsLib) throw new Error('PDF.js not loaded');
+        const buf = await file.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(buf) }).promise;
+        let text = '';
+        for (let i = 1; i <= pdf.numPages; i++) {
+          const page = await pdf.getPage(i);
+          const content = await page.getTextContent();
+          text += content.items.map(item => item.str).join(' ') + '\n';
+        }
+        entry.text = text.trim();
+        entry.loading = false;
+        if (!entry.text) {
+          entry.error = 'このPDFは読み取れませんでした。テキストをコピペしてください。';
+          entry.text = null;
+        }
+      } catch {
+        entry.error = 'このPDFは読み取れませんでした。テキストをコピペしてください。';
+        entry.loading = false;
+      }
+      renderPdfList(pdfSec.querySelector('#pdfList'));
+    }
+    e.target.value = '';
+  });
+
+  // ── Section 2: Images ──
+  const imgSec = document.createElement('div');
+  imgSec.className = 'upload-section';
+  imgSec.innerHTML = `
+    <div class="upload-section-header">
+      <span class="material-icons upload-section-icon">add_photo_alternate</span>
+      <span class="upload-section-title">参考画像をアップロード</span>
+    </div>
+    <label class="upload-btn">
+      <span class="material-icons">add_photo_alternate</span>
+      参考画像を追加
+      <input type="file" accept=".jpg,.jpeg,.png,.webp" multiple style="display:none" id="imgFileInput">
+    </label>
+    <div class="img-grid" id="imgGrid"></div>
+  `;
+  wrap.appendChild(imgSec);
+  renderImgGrid(imgSec.querySelector('#imgGrid'));
+
+  imgSec.querySelector('#imgFileInput').addEventListener('change', (e) => {
+    const files = Array.from(e.target.files);
+    let loaded = 0;
+    files.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = ev => {
+        state.flyerAnswers.images.push({ name: file.name, dataUrl: ev.target.result });
+        loaded++;
+        if (loaded === files.length) renderImgGrid(imgSec.querySelector('#imgGrid'));
+      };
+      reader.readAsDataURL(file);
+    });
+    e.target.value = '';
+  });
+
+  // ── Section 3: Memo ──
+  const memoSec = document.createElement('div');
+  memoSec.className = 'upload-section';
+  memoSec.innerHTML = `
+    <div class="upload-section-header">
+      <span class="material-icons upload-section-icon">edit_note</span>
+      <span class="upload-section-title">補足メモ</span>
+    </div>
+    <textarea class="text-input textarea-input" id="memoTextarea"
+      placeholder="補足情報をここにコピペしてください&#10;例：ターゲットは子育て世帯・温かみのある雰囲気で"
+      rows="5">${escHtml(state.flyerAnswers.memo)}</textarea>
+  `;
+  wrap.appendChild(memoSec);
+  memoSec.querySelector('#memoTextarea').addEventListener('input', e => {
+    state.flyerAnswers.memo = e.target.value;
+  });
+
+  return wrap;
+}
+
+function renderPdfList(container) {
+  container.innerHTML = '';
+  state.flyerAnswers.pdfTexts.forEach((entry, idx) => {
+    const item = document.createElement('div');
+    item.className = 'pdf-item';
+    if (entry.loading) {
+      item.innerHTML = `<div class="pdf-spinner"></div><span class="pdf-item-name">${escHtml(entry.name)}</span>`;
+    } else if (entry.error) {
+      item.innerHTML = `
+        <span class="material-icons pdf-item-icon error">error_outline</span>
+        <span class="pdf-item-name">${escHtml(entry.name)}</span>
+        <button class="pdf-del-btn" data-idx="${idx}"><span class="material-icons">close</span></button>
+        <span class="pdf-error">${escHtml(entry.error)}</span>
+      `;
+    } else {
+      item.innerHTML = `
+        <span class="material-icons pdf-item-icon success">check_circle</span>
+        <span class="pdf-item-name">読み込み完了：${escHtml(entry.name)}</span>
+        <button class="pdf-del-btn" data-idx="${idx}"><span class="material-icons">close</span></button>
+      `;
+    }
+    container.appendChild(item);
+  });
+  container.querySelectorAll('.pdf-del-btn').forEach(btn => {
+    btn.onclick = () => { state.flyerAnswers.pdfTexts.splice(parseInt(btn.dataset.idx), 1); renderPdfList(container); };
+  });
+}
+
+function renderImgGrid(container) {
+  container.innerHTML = '';
+  state.flyerAnswers.images.forEach((img, idx) => {
+    const thumb = document.createElement('div');
+    thumb.className = 'img-thumb';
+    thumb.innerHTML = `
+      <img src="${escAttr(img.dataUrl)}" alt="${escHtml(img.name)}">
+      <button class="img-del-btn" data-idx="${idx}"><span class="material-icons">close</span></button>
+    `;
+    container.appendChild(thumb);
+  });
+  container.querySelectorAll('.img-del-btn').forEach(btn => {
+    btn.onclick = () => { state.flyerAnswers.images.splice(parseInt(btn.dataset.idx), 1); renderImgGrid(container); };
+  });
 }
 
 // ─── Navigation ───────────────────────────────────────────────────────
 function handleNext() {
   state.currentStep++;
-  if (state.currentStep >= getCurrentActiveSteps().length) {
+  if (state.currentStep >= getCurrentActiveSteps().length)
     saveToHistory(state.mode === 'flyer' ? generateFlyerPrompt() : generateAdPrompt());
-  }
   renderStep();
 }
 
@@ -1177,23 +1009,17 @@ function handleNext() {
 function generateAdPrompt() {
   const a = state.answers;
   const lines = ['添付画像を使用して画像を生成してください。', ''];
-
-  if (a.ratio)     lines.push(`アスペクト比：${a.ratio}`);
+  if (a.ratio) lines.push(`アスペクト比：${a.ratio}`);
   const taste = state.selectedClient ? state.selectedClient.defaultTaste : a.taste;
-  if (taste)       lines.push(`テイスト：${taste}`);
+  if (taste) lines.push(`テイスト：${taste}`);
   if (a.title)     lines.push(`タイトル：${a.title}`);
   if (a.catchcopy) lines.push(`キャッチコピー：${a.catchcopy}`);
-  if (a.date) {
-    const dt = new Date(a.date + 'T00:00:00');
-    lines.push(`日付：${dt.getFullYear()}年${dt.getMonth() + 1}月${dt.getDate()}日`);
-  }
+  if (a.date) { const dt = new Date(a.date + 'T00:00:00'); lines.push(`日付：${dt.getFullYear()}年${dt.getMonth()+1}月${dt.getDate()}日`); }
   if (a.venue)   lines.push(`開催場所：${a.venue}`);
   if (a.benefit) lines.push(`特典：${a.benefit}`);
   if (a.logo)    lines.push(`ロゴ：${a.logo}`);
-
   lines.push('');
   appendBrandBlock(lines);
-
   return lines.join('\n').trim();
 }
 
@@ -1205,21 +1031,22 @@ function generateFlyerPrompt() {
   if (a.size) lines.push(`サイズ：${a.size}`);
   lines.push('');
 
-  if (a.memo && a.memo.trim()) {
+  const pdfTexts = a.pdfTexts.filter(p => p.text).map(p => p.text.trim()).filter(Boolean);
+  if (pdfTexts.length > 0) {
     lines.push('【MTGメモの内容】');
-    lines.push(a.memo.trim());
+    lines.push(pdfTexts.join('\n\n'));
     lines.push('');
   }
 
-  if (a.refImage === 'あり') {
+  if (a.images.length > 0) {
     lines.push('【参考画像】');
-    lines.push('添付の参考画像のデザインテイストを参考にしてください。');
+    lines.push(`添付の参考画像（${a.images.length}枚）のデザインテイストを参考にしてください。`);
     lines.push('');
   }
 
-  if (a.extra && a.extra.trim()) {
+  if (a.memo && a.memo.trim()) {
     lines.push('【追加情報】');
-    lines.push(a.extra.trim());
+    lines.push(a.memo.trim());
     lines.push('');
   }
 
@@ -1233,11 +1060,10 @@ function generateFlyerPrompt() {
   return lines.join('\n').trim();
 }
 
-// ─── Brand Block Helper ───────────────────────────────────────────────
+// ─── Brand Block ──────────────────────────────────────────────────────
 function appendBrandBlock(lines) {
   const c = state.selectedClient;
   if (!c) return;
-
   lines.push('【ブランドデザイン指示】');
   if (c.colors) {
     lines.push(`カラー：メイン ${c.colors.main.hex}（${c.colors.main.name}）、`);
@@ -1253,8 +1079,7 @@ function appendBrandBlock(lines) {
   if (c.ngRules && c.ngRules.length > 0) {
     lines.push(`NGルール：${c.ngRules[0]} /`);
     for (let i = 1; i < c.ngRules.length; i++) {
-      const suffix = i < c.ngRules.length - 1 ? ' /' : '';
-      lines.push(`　　　　　${c.ngRules[i]}${suffix}`);
+      lines.push(`　　　　　${c.ngRules[i]}${i < c.ngRules.length - 1 ? ' /' : ''}`);
     }
   }
   if (c.referenceUrl) lines.push(`参考HP：${c.referenceUrl}`);
@@ -1263,22 +1088,22 @@ function appendBrandBlock(lines) {
 
 // ─── Result Screens ───────────────────────────────────────────────────
 function buildAdResult() {
-  return buildResultCard(generateAdPrompt(), '広告画像プロンプトが完成しました');
+  return buildResultCard(generateAdPrompt(), '広告画像プロンプトが完成しました', false);
 }
 
 function buildFlyerResult() {
-  return buildResultCard(generateFlyerPrompt(), 'チラシラフ案プロンプトが完成しました');
+  return buildResultCard(generateFlyerPrompt(), 'チラシラフ案プロンプトが完成しました', state.flyerAnswers.images.length > 0);
 }
 
-function buildResultCard(prompt, title) {
-  const isFlyerWithRef = state.mode === 'flyer' && state.flyerAnswers.refImage === 'あり';
-  const noteText = isFlyerWithRef
-    ? 'プロンプトを自動コピーしました。ChatGPTの入力欄に貼り付けて、参考画像も一緒に添付して送信してください。'
-    : 'プロンプトを自動コピーしました。ChatGPTの入力欄に貼り付けて、写真も一緒に添付して送信してください。';
-
+function buildResultCard(prompt, title, hasImages) {
   const wrap = document.createElement('div');
   const card = document.createElement('div');
   card.className = 'result-card';
+
+  const chatgptNote = hasImages
+    ? 'プロンプトを自動コピーしました。ChatGPTの入力欄に貼り付けて送信してください。'
+    : 'プロンプトを自動コピーしました。ChatGPTの入力欄に貼り付けて、写真も一緒に添付して送信してください。';
+
   card.innerHTML = `
     <div class="result-header">
       <div class="result-header-label">COMPLETE</div>
@@ -1293,7 +1118,8 @@ function buildResultCard(prompt, title) {
         <span class="material-icons">open_in_new</span>
         ChatGPTで開く
       </button>
-      <div class="chatgpt-note" id="chatgptNote">${escHtml(noteText)}</div>
+      <div class="chatgpt-note" id="chatgptNote">${escHtml(chatgptNote)}</div>
+      ${hasImages ? buildImageAttachHtml() : ''}
       <button class="action-btn copy-btn" onclick="copyPrompt(this)">
         <span class="material-icons">content_copy</span>
         プロンプトをコピー
@@ -1314,10 +1140,23 @@ function buildResultCard(prompt, title) {
   return wrap;
 }
 
-// ─── Actions ──────────────────────────────────────────────────────────
-function getCurrentPrompt() {
-  return state.mode === 'flyer' ? generateFlyerPrompt() : generateAdPrompt();
+function buildImageAttachHtml() {
+  const thumbsHtml = state.flyerAnswers.images.map(img =>
+    `<img class="img-attach-thumb" src="${escAttr(img.dataUrl)}" alt="${escHtml(img.name)}">`
+  ).join('');
+  return `
+    <div class="img-attach-note">
+      <div class="img-attach-label">
+        <span class="material-icons">add_photo_alternate</span>
+        以下の画像もChatGPTに添付してください（${state.flyerAnswers.images.length}枚）
+      </div>
+      <div class="img-attach-grid">${thumbsHtml}</div>
+    </div>
+  `;
 }
+
+// ─── Actions ──────────────────────────────────────────────────────────
+function getCurrentPrompt() { return state.mode === 'flyer' ? generateFlyerPrompt() : generateAdPrompt(); }
 
 function copyPrompt(btn) {
   if (btn.classList.contains('copied')) return;
@@ -1331,36 +1170,27 @@ function copyPrompt(btn) {
 
 function openChatGPT(btn) {
   const note = document.getElementById('chatgptNote');
-  btn.style.opacity = '0.7';
-  btn.style.cursor = 'wait';
+  btn.style.opacity = '0.7'; btn.style.cursor = 'wait';
   const finish = () => {
     if (note) note.style.display = 'block';
     window.open('https://chatgpt.com/', '_blank', 'noopener');
-    btn.style.opacity = '';
-    btn.style.cursor = '';
+    btn.style.opacity = ''; btn.style.cursor = '';
   };
   navigator.clipboard.writeText(getCurrentPrompt()).then(finish).catch(finish);
 }
 
 function changeClient() {
-  state.isClientSelected = false;
-  state.selectedClient = null;
-  state.currentStep = 0;
+  state.isClientSelected = false; state.selectedClient = null; state.currentStep = 0;
   state.answers = { ratio: null, taste: null, title: '', catchcopy: '', date: '', venue: '', benefit: '', logo: null };
-  state.flyerAnswers = { size: null, memo: '', refImage: null, extra: '' };
-  renderStep();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  state.flyerAnswers = { size: null, pdfTexts: [], images: [], memo: '' };
+  renderStep(); window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function restartWizard() {
   state.currentStep = 0;
-  if (state.mode === 'flyer') {
-    state.flyerAnswers = { size: null, memo: '', refImage: null, extra: '' };
-  } else {
-    state.answers = { ratio: null, taste: null, title: '', catchcopy: '', date: '', venue: '', benefit: '', logo: null };
-  }
-  renderStep();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (state.mode === 'flyer') state.flyerAnswers = { size: null, pdfTexts: [], images: [], memo: '' };
+  else state.answers = { ratio: null, taste: null, title: '', catchcopy: '', date: '', venue: '', benefit: '', logo: null };
+  renderStep(); window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // ─── History ──────────────────────────────────────────────────────────
@@ -1368,13 +1198,9 @@ function saveToHistory(prompt) {
   const history = getHistory();
   const modeLabel = state.mode === 'flyer' ? 'チラシラフ案' : '広告画像';
   const clientPart = state.selectedClient ? `${state.selectedClient.name} · ` : '';
-  let detail;
-  if (state.mode === 'flyer') {
-    detail = state.flyerAnswers.size || '—';
-  } else {
-    const a = state.answers;
-    detail = [a.ratio, a.taste].filter(Boolean).join(' / ') || '—';
-  }
+  const detail = state.mode === 'flyer'
+    ? state.flyerAnswers.size || '—'
+    : ([state.answers.ratio, state.answers.taste].filter(Boolean).join(' / ') || '—');
   const badge = `[${modeLabel}] ${clientPart}${detail}`;
   history.unshift({ id: Date.now(), prompt, badge, createdAt: new Date().toISOString() });
   localStorage.setItem('housingPromptHistory', JSON.stringify(history.slice(0, 10)));
@@ -1391,12 +1217,7 @@ function renderHistory() {
   const list = document.getElementById('historyList');
 
   if (history.length === 0) {
-    list.innerHTML = `
-      <div class="history-empty">
-        <span class="material-icons">history</span>
-        まだ生成履歴がありません
-      </div>
-    `;
+    list.innerHTML = `<div class="history-empty"><span class="material-icons">history</span>まだ生成履歴がありません</div>`;
     return;
   }
 
@@ -1406,7 +1227,6 @@ function renderHistory() {
     card.className = 'history-card';
     const dt = new Date(entry.createdAt);
     const dateStr = `${dt.getFullYear()}/${pad(dt.getMonth()+1)}/${pad(dt.getDate())} ${pad(dt.getHours())}:${pad(dt.getMinutes())}`;
-
     card.innerHTML = `
       <div class="history-meta">
         <span class="history-badge">${escHtml(entry.badge)}</span>
@@ -1422,7 +1242,6 @@ function renderHistory() {
         </button>
       </div>
     `;
-
     const copyBtn = card.querySelector('.copy-h-btn');
     copyBtn.onclick = function() {
       if (this.classList.contains('copied')) return;
@@ -1433,14 +1252,12 @@ function renderHistory() {
         setTimeout(() => { this.innerHTML = orig; this.classList.remove('copied'); }, 2000);
       });
     };
-
     list.appendChild(card);
   });
 }
 
 function deleteHistory(id) {
-  localStorage.setItem('housingPromptHistory',
-    JSON.stringify(getHistory().filter(e => e.id !== id)));
+  localStorage.setItem('housingPromptHistory', JSON.stringify(getHistory().filter(e => e.id !== id)));
   renderHistory();
 }
 
@@ -1450,13 +1267,9 @@ function clearAllHistory() {
   renderHistory();
 }
 
-// ─── Helpers ──────────────────────────────────────────────────────────
-function escHtml(s) {
-  return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-function escAttr(s) {
-  return (s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;');
-}
+// ─── Utils ────────────────────────────────────────────────────────────
+function escHtml(s) { return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function escAttr(s) { return (s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;'); }
 function pad(n) { return String(n).padStart(2, '0'); }
 
 // ─── Init ─────────────────────────────────────────────────────────────
